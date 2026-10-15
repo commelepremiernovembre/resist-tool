@@ -65,7 +65,7 @@ export default function Home() {
         Chaque page vit sur un lien secret, non indexé. Tout est effacé au bout de 6 mois sans activité, sauf les textes que vous mettez hors ligne pour les archiver.
       </p>
 
-      {/* Lien GitHub discret en bas à gauche (les boutons Aa / A+ / EN sont à droite). */}
+      {/* Lien GitHub discret, horizontal en bas à gauche (les boutons Aa / A+ / EN sont à droite). */}
       <a
         href="https://github.com/commelepremiernovembre"
         target="_blank"

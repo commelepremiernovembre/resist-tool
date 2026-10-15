@@ -2,10 +2,14 @@
 
 > **Licence : [CC BY-NC 4.0](LICENSE)** — libre de réutiliser et modifier, à condition de citer **commelepremiernovembre** (avec un lien vers ce dépôt) et de ne pas en faire un usage commercial.
 
-Deux outils pour organiser à plusieurs, sans compte et sans mouchard.
+Outils simples et privés pour militer collectivement, sans compte et sans mouchard. En ligne : **resist-tool.vercel.app** (installable comme une appli).
 
-- **Signature** — un texte à signer entre organisations : chacun répond, propose des modifs sur un passage précis, et dépose son logo au même endroit. Fini les 40 mails et les logos en pièce jointe.
-- **Réunion** — un sondage de dates façon Framadate / Crab Fit, en plus rapide.
+- **Textes** (bleu) — un texte à signer entre organisations : chacun répond, propose des modifs sur un passage précis, et dépose son logo au même endroit. Fini les 40 mails et les logos en pièce jointe.
+- **Réunion** (orange) — un sondage de dates façon Framadate / Crab Fit, en plus rapide.
+- **Paraphe** (rose) — un carnet des pétitions reçues dans ses messageries, pour les signer quand on a un moment.
+- **Mon espace** — vos textes, sondages et pétitions sur tous vos appareils, avec un simple code personnel.
+
+Sur toutes les pages : version anglaise (bouton EN / FR), texte agrandi (A+) et lecture facilitée pour la dyslexie (Aa).
 
 ## Démarrer
 
@@ -19,7 +23,7 @@ npm run dev
 
 1. Créer un projet sur supabase.com.
 2. SQL Editor → coller `supabase/schema.sql` → Run. Ça crée les tables, active RLS **sans aucune policy** et crée le bucket **privé** `logos`.
-   (Si vous aviez déjà lancé une version antérieure, jouez les migrations dans l'ordre : `002`, `003`, `004`.)
+   (Si vous aviez déjà lancé une version antérieure, jouez les migrations dans l'ordre : `002` à `007`.)
 3. Settings → API : copier `Project URL` et la clé `service_role`.
 4. Les mettre dans `.env.local` :
 
@@ -33,6 +37,8 @@ Toutes les lectures/écritures passent par les routes `/api` côté serveur. La 
 ## Déployer
 
 `vercel` → ajouter les deux variables d'environnement dans le projet Vercel. Rien d'autre.
+
+Le dépôt GitHub n'est pas relié à Vercel : la mise en ligne se fait à la main avec `vercel --prod`.
 
 ## Comment ça marche
 
@@ -82,7 +88,7 @@ Le bucket est privé. Les fichiers ne sortent que par URL signée, générée à
 - Le lien de don (`/soutenir`) — HelloAsso, Liberapay ou Stripe.
 - Une planche de logos exportable en PNG/SVG pour le visuel final.
 - Une relance par mail des organisations « en réflexion ».
-- Un diff lisible entre deux versions, en suppressions barrées et ajouts surlignés (aujourd'hui on lit les versions entières, l'une après l'autre).
+- Un diff lisible entre deux versions publiées (les modifs suggérées montrent déjà ajouts en gras et retraits barrés ; les versions, elles, se lisent encore entières).
 - Renvoyer le lien personnel par mail sans passer par le pilote (suppose un envoi de mail, donc un service en plus).
 - Chiffrement bout-en-bout, **si** les organisations le jugent indispensable, et sur les contenus sensibles seulement : le texte avant publication, pas les logos ni les dispos. La clé vivrait dans le fragment de l'URL (`#clé`, jamais envoyé au serveur), le déchiffrement dans le navigateur — au prix de l'export CSV et de tout tri côté serveur. Rien ne le promet dans l'interface tant que ce n'est pas fait.
 
@@ -95,7 +101,9 @@ Faire passer `PARCOURS-TEST.md` à quatre ou cinq personnes : créer → suggér
 - `src/app/api/**` — toute la logique serveur, une route par ressource.
 - `src/lib/db.ts` — client Supabase serveur, génération de slugs et de clés.
 - `src/lib/types.ts` — les libellés (« Oui, si les modifs suggérées sont intégrées », etc.) sont ici, pas en dur dans les pages.
-- `tailwind.config.ts` — palette : violet `#4B2AEF`, mur `#F2F1F6`, vert `#1F7A5C`.
+- `tailwind.config.ts` — palette : violet `#4B2AEF`, mur `#F2F1F6`, vert `#1F7A5C`. Couleurs des outils : Textes `#1A7CF0`, Réunion `#FF7A00`, Paraphe `#DB1A74`.
+- `public/paraphe/index.html` — Paraphe, page HTML autonome.
+- `public/i18n.js` — traduction FR → EN et boutons Aa / A+ / EN, chargé sur toutes les pages.
 
 ## Journal
 
@@ -274,6 +282,7 @@ Faire passer `PARCOURS-TEST.md` à quatre ou cinq personnes : créer → suggér
 - **15/10/2026** — Paraphe : colonne de gauche plus étroite (204 px) et à la hauteur de son contenu (l'encadré d'aide suit le menu au lieu d'être en bas de l'écran).
 - **15/10/2026** — Mon espace : phrase d'intro sur deux lignes (« Vos textes… appareils. » / « Sans compte : un code personnel suffit. »).
 - **16/10/2026** — Code versé dans un dépôt GitHub **privé** `commelepremiernovembre/resist-tool` (branche main). Exclus par `.gitignore` : `.env*`, sauvegardes `*.bak_*`, `sauvegarde_*.txt`, `carnet_espace_*.json`. Le dépôt n'est **pas** relié à Vercel : la mise en ligne reste `vercel --prod`.
-- 16/10/2026 : accueil, lien GitHub « commelepremiernovembre » discret en bas à gauche (github.com/commelepremiernovembre).
 - **16/10/2026** — Dépôt GitHub `resist-tool` passé en **public**, sous licence CC BY-NC 4.0 (fichier LICENSE) : citer commelepremiernovembre, pas d'usage commercial.
 - **16/10/2026** — Mis en ligne (vercel --prod) avec le lien discret « commelepremiernovembre » en bas à gauche de l'accueil (vers le profil GitHub).
+- **16/10/2026** — Lien GitHub de l'accueil : essais en vertical (bord droit, puis bord gauche), finalement gardé horizontal en bas à gauche, comme au départ.
+- **16/10/2026** — README remis à jour : trois outils + Mon espace, accessibilité, migrations jusqu'à 007, mise en ligne par `vercel --prod`, repères (couleurs, Paraphe, i18n.js).
