@@ -276,3 +276,4 @@ Faire passer `PARCOURS-TEST.md` à quatre ou cinq personnes : créer → suggér
 - **16/10/2026** — Code versé dans un dépôt GitHub **privé** `commelepremiernovembre/resist-tool` (branche main). Exclus par `.gitignore` : `.env*`, sauvegardes `*.bak_*`, `sauvegarde_*.txt`, `carnet_espace_*.json`. Le dépôt n'est **pas** relié à Vercel : la mise en ligne reste `vercel --prod`.
 - 16/10/2026 : accueil, lien GitHub « commelepremiernovembre » discret en bas à gauche (github.com/commelepremiernovembre).
 - **16/10/2026** — Dépôt GitHub `resist-tool` passé en **public**, sous licence CC BY-NC 4.0 (fichier LICENSE) : citer commelepremiernovembre, pas d'usage commercial.
+- **16/10/2026** — Mis en ligne (vercel --prod) avec le lien discret « commelepremiernovembre » en bas à gauche de l'accueil (vers le profil GitHub).
