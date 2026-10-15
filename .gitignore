@@ -10,3 +10,4 @@ carnet_espace_*.json
 .claude
 .DS_Store
 *.tgz
+tsconfig.tsbuildinfo

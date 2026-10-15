@@ -1,5 +1,7 @@
 # Resist !
 
+> **Licence : [CC BY-NC 4.0](LICENSE)** — libre de réutiliser et modifier, à condition de citer **commelepremiernovembre** (avec un lien vers ce dépôt) et de ne pas en faire un usage commercial.
+
 Deux outils pour organiser à plusieurs, sans compte et sans mouchard.
 
 - **Signature** — un texte à signer entre organisations : chacun répond, propose des modifs sur un passage précis, et dépose son logo au même endroit. Fini les 40 mails et les logos en pièce jointe.
@@ -272,3 +274,5 @@ Faire passer `PARCOURS-TEST.md` à quatre ou cinq personnes : créer → suggér
 - **15/10/2026** — Paraphe : colonne de gauche plus étroite (204 px) et à la hauteur de son contenu (l'encadré d'aide suit le menu au lieu d'être en bas de l'écran).
 - **15/10/2026** — Mon espace : phrase d'intro sur deux lignes (« Vos textes… appareils. » / « Sans compte : un code personnel suffit. »).
 - **16/10/2026** — Code versé dans un dépôt GitHub **privé** `commelepremiernovembre/resist-tool` (branche main). Exclus par `.gitignore` : `.env*`, sauvegardes `*.bak_*`, `sauvegarde_*.txt`, `carnet_espace_*.json`. Le dépôt n'est **pas** relié à Vercel : la mise en ligne reste `vercel --prod`.
+- 16/10/2026 : accueil, lien GitHub « commelepremiernovembre » discret en bas à gauche (github.com/commelepremiernovembre).
+- **16/10/2026** — Dépôt GitHub `resist-tool` passé en **public**, sous licence CC BY-NC 4.0 (fichier LICENSE) : citer commelepremiernovembre, pas d'usage commercial.
