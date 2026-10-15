@@ -1,0 +1,135 @@
+/* ==========================================================================
+   Resist ! — version punk (essai). Tout est préfixé .punk : sans le cookie
+   resist_theme=punk, rien ne change. Fanzine photocopié : noir, rose fluo,
+   surligneur jaune, bordures épaisses, ombres dures, collages de travers.
+   ========================================================================== */
+.punk {
+  --pk-ink: #111111;
+  --pk-paper: #F3EFE4;
+  --pk-pink: #FF2E88;
+  --pk-yellow: #E9FF3B;
+  --pk-shadow: 5px 5px 0 var(--pk-ink);
+}
+
+/* Papier photocopié : trame de points + léger grain */
+.punk body {
+  background-color: var(--pk-paper);
+  background-image:
+    radial-gradient(rgba(17, 17, 17, .13) 1px, transparent 1.2px),
+    radial-gradient(rgba(17, 17, 17, .05) 1px, transparent 1.2px);
+  background-size: 7px 7px, 13px 13px;
+  background-position: 0 0, 3px 5px;
+  color: var(--pk-ink);
+}
+
+/* Typo : titres au pochoir massif, étiquettes à la machine à écrire */
+.punk h1, .punk h2, .punk .font-display {
+  font-family: var(--font-punk), var(--font-display), system-ui, sans-serif !important;
+  font-style: normal !important;
+  letter-spacing: -.02em;
+  word-spacing: -.35em; /* police à chasse fixe : les espaces sont trop larges */
+  text-transform: uppercase;
+}
+.punk h1 { line-height: 1.05; overflow-wrap: break-word; }
+@media (max-width: 640px) {
+  .punk main h1 { font-size: 6vw !important; }
+  .punk a.group > span:first-child { font-size: 2.6rem; }
+}
+.punk h2 { font-size: 1.05em; letter-spacing: 0; }
+.punk .label, .punk label, .punk th, .punk .uppercase {
+  font-family: var(--font-punk-mono), ui-monospace, monospace;
+}
+
+/* Couleurs : le violet devient rose fluo, le lavande devient surligneur */
+.punk .text-violet { color: var(--pk-pink) !important; }
+.punk .bg-violet { background-color: var(--pk-pink) !important; }
+.punk .bg-violet-wash, .punk .bg-violet-wash\/40 { background-color: var(--pk-yellow) !important; }
+.punk .border-violet, .punk .border-violet\/50, .punk .border-violet\/40 { border-color: var(--pk-ink) !important; }
+.punk .accent-violet { accent-color: var(--pk-pink); }
+.punk .text-moss { color: var(--pk-ink) !important; }
+.punk .bg-moss\/10 { background-color: var(--pk-yellow) !important; }
+.punk .bg-rose { background-color: var(--pk-pink) !important; color: #fff; }
+.punk hr.border-violet { border-color: var(--pk-ink) !important; border-top-width: 4px !important; border-style: dashed; }
+
+/* Le logo : collé sur du surligneur, trait rose tracé au marqueur */
+.punk a.group > span:first-child {
+  background: var(--pk-yellow);
+  color: var(--pk-ink) !important;
+  padding: .05em .25em;
+  box-shadow: var(--pk-shadow);
+  border: 3px solid var(--pk-ink);
+  display: inline-block;
+  transform: rotate(-2deg);
+}
+.punk a.group > span.stroke-in {
+  background: var(--pk-pink) !important;
+  height: 8px !important;
+  border-radius: 0 !important;
+  transform: rotate(-1.5deg) skewX(-20deg);
+  margin-top: 10px !important;
+}
+
+/* Cartes : papier collé, bordure noire, ombre dure, de travers */
+.punk .card, .punk article, .punk .rounded-2xl, .punk .rounded-3xl {
+  border-radius: 0 !important;
+  border: 3px solid var(--pk-ink) !important;
+  box-shadow: var(--pk-shadow) !important;
+  background-color: #fff;
+}
+.punk .card { background: #fff; }
+.punk main article:nth-of-type(3n+1) { transform: rotate(-1.2deg); }
+.punk main article:nth-of-type(3n+2) { transform: rotate(.8deg); }
+.punk main article:nth-of-type(3n) { transform: rotate(-.5deg); }
+.punk .rounded-3xl.bg-violet-wash { background-color: var(--pk-yellow) !important; }
+
+/* Illustrations : passées à la photocopieuse, avec un aplat rose dessous */
+.punk article svg { filter: grayscale(1) contrast(1.6) brightness(1.05); mix-blend-mode: multiply; }
+.punk article > div:first-child { background: var(--pk-pink); }
+
+/* Boutons : étiquettes coupées au cutter */
+.punk .btn-primary, .punk .btn-dark, .punk .btn-ghost, .punk button.rounded-xl, .punk a.rounded-xl {
+  border-radius: 0 !important;
+  border: 3px solid var(--pk-ink) !important;
+  box-shadow: 4px 4px 0 var(--pk-ink) !important;
+  font-family: var(--font-punk-mono), ui-monospace, monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  transition: transform .08s, box-shadow .08s;
+}
+.punk .btn-primary:active, .punk .btn-dark:active, .punk .btn-ghost:active, .punk button.rounded-xl:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--pk-ink) !important; }
+.punk .btn-primary { background: var(--pk-pink) !important; color: #fff !important; }
+.punk .btn-primary:hover { background: var(--pk-ink) !important; }
+.punk .btn-dark { background: var(--pk-ink) !important; color: var(--pk-yellow) !important; }
+.punk .btn-dark:hover { background: var(--pk-pink) !important; color: #fff !important; }
+.punk .btn-ghost { background: #fff !important; color: var(--pk-ink) !important; }
+.punk .btn-ghost:hover { background: var(--pk-yellow) !important; }
+
+/* Champs : cadre noir, focus surligné */
+.punk .field, .punk input[type=text], .punk input:not([type]), .punk select, .punk textarea {
+  border-radius: 0 !important;
+  border: 2px solid var(--pk-ink) !important;
+  background: #fff;
+}
+.punk .field:focus, .punk input:focus, .punk select:focus, .punk textarea:focus {
+  box-shadow: 4px 4px 0 var(--pk-pink) !important;
+  border-color: var(--pk-ink) !important;
+}
+
+/* Pastilles et étiquettes : scotch jaune */
+.punk .rounded-full.bg-violet-wash { background: var(--pk-yellow) !important; color: var(--pk-ink) !important; border: 2px solid var(--pk-ink); border-radius: 0 !important; }
+
+/* Réunion : grille en rose, curseur noir et rose */
+.punk [data-c] { filter: hue-rotate(78deg) saturate(1.4); }
+.punk .range-thumb::-webkit-slider-thumb { border-radius: 0; background: var(--pk-pink); border-color: var(--pk-ink); }
+.punk .range-thumb::-moz-range-thumb { border-radius: 0; background: var(--pk-pink); border-color: var(--pk-ink); }
+
+/* Petit texte de bas de page : tampon */
+.punk main > p:last-child {
+  font-family: var(--font-punk-mono), ui-monospace, monospace;
+  color: var(--pk-ink) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .punk main article { transform: none !important; }
+}

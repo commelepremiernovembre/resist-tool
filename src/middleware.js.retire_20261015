@@ -1,0 +1,84 @@
+// Porte d'entrée (repris de ~/Desktop/babeth-tool/_porte/middleware.js).
+// Pas d'identifiant, juste le mot de passe (variable PORTE_PASSWORD).
+// Routing Middleware Vercel, sans dépendance : il passe avant toute page et toute API.
+
+const NOM_APP = 'Resist !';
+const COOKIE = 'resist_acces';
+const UN_AN = 60 * 60 * 24 * 365;
+// Ce qui doit rester joignable sans mot de passe : icônes, manifeste, service worker.
+const PUBLIC = /^\/(manifest\.(json|webmanifest)|sw\.js|favicon[^/]*|apple-touch-icon[^/]*|icon-[^/]*\.png|robots\.txt|_next\/static\/.*|api\/purge)$/;
+// /api/purge vérifie elle-même le secret du cron Vercel.
+// Cookies propres à l'app à poser en même temps (son ancienne connexion), si besoin.
+async function cookiesEnPlus(motDePasse) { return []; }
+
+export const config = { matcher: '/:path*' };
+
+export default async function middleware(request) {
+  const url = new URL(request.url);
+  if (PUBLIC.test(url.pathname)) return continuer();
+  const motDePasse = process.env.PORTE_PASSWORD;
+  if (!motDePasse) return new Response('Mot de passe non configuré (PORTE_PASSWORD).', { status: 503 });
+  const jeton = await sha256('resist_acces:' + motDePasse);
+
+  if (url.pathname === '/__connexion' && request.method === 'POST') {
+    const form = await request.formData();
+    const suite = String(form.get('suite') || '/');
+    const dest = suite.startsWith('/') && !suite.startsWith('//') ? suite : '/';
+    if (form.get('password') !== motDePasse) return page(dest, true);
+    // Adresse absolue : Next 16 (proxy.js) refuse une adresse relative dans Location.
+    const headers = new Headers({ Location: new URL(dest, request.url).toString(), 'Cache-Control': 'no-store' });
+    headers.append('Set-Cookie', `${COOKIE}=${jeton}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${UN_AN}`);
+    for (const c of await cookiesEnPlus(motDePasse)) headers.append('Set-Cookie', c);
+    return new Response(null, { status: 303, headers });
+  }
+
+  const cookies = (request.headers.get('cookie') || '').split(/;\s*/);
+  if (cookies.includes(`${COOKIE}=${jeton}`)) return continuer();
+  if (/^(\/paraphe)?\/api\//.test(url.pathname)) {
+    return new Response(JSON.stringify({ error: 'Connexion requise.' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
+  }
+  return page(url.pathname + url.search, false);
+}
+
+function continuer() { return new Response(null, { headers: { 'x-middleware-next': '1' } }); }
+
+async function sha256(texte) {
+  const h = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texte));
+  return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+const echap = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function page(suite, erreur) {
+  return new Response(`<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex"><title>${NOM_APP}</title>
+<style>
+:root{--bg:#eceef2;--card:#fff;--ink:#1d2433;--muted:#5d6578;--line:#d5d9e1;--gilt:#4B2AEF;--gilt-soft:#ece8fd;--err:#b3261e;
+--display:-apple-system,"Segoe UI",sans-serif;--body:-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#141821;--card:#1d2230;--ink:#e9ecf2;--muted:#9aa2b4;--line:#2c3343;--gilt:#8b78ff;--gilt-soft:#221c45;--err:#f2b8b5;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.wrap{max-width:24rem;margin:0 auto;padding-inline:16px;padding-block:5rem 4rem;display:grid;gap:2rem}
+header{text-align:center;display:grid;gap:.5rem;justify-items:center}
+.mono{width:4.5rem;height:4.5rem;border-radius:50%;display:grid;place-items:center;background:var(--gilt-soft);color:var(--gilt);font-family:var(--display);font-size:2.1rem;border:1px solid var(--gilt)}.phenix{width:5.25rem;height:5.25rem;display:block}
+h1{font-family:var(--display);font-weight:600;font-size:2.2rem;margin:.5rem 0 0;text-wrap:balance}
+header p{margin:0;color:var(--muted)}
+form{display:grid;gap:.75rem}
+input{font:inherit;font-size:1.05rem;padding:.85rem 1rem;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+input:focus-visible{outline:none;border-color:var(--gilt);box-shadow:0 0 0 3px var(--gilt-soft)}
+button{font:inherit;font-weight:600;font-size:1.05rem;padding:.85rem 1rem;border-radius:14px;border:0;background:var(--gilt);color:var(--card);cursor:pointer}
+button:focus-visible{outline:3px solid var(--gilt-soft)}
+.erreur{color:var(--err);margin:0;text-align:center;font-size:.9rem}
+</style></head><body>
+<div class="wrap">
+  <header><h1>${NOM_APP}</h1><p>Entrer le mot de passe pour ouvrir.<br>À faire une seule fois : cet appareil s&apos;en souviendra.</p></header>
+  <form method="post" action="/__connexion">
+    <input type="hidden" name="suite" value="${echap(suite)}">
+    <input type="text" name="username" value="${NOM_APP}" autocomplete="username" readonly hidden>
+    <input id="password" name="password" type="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Mot de passe" required autofocus>
+    <button type="submit">Ouvrir</button>
+    ${erreur ? '<p class="erreur">Mot de passe incorrect.</p>' : ''}
+  </form>
+</div></body></html>`, { status: erreur ? 401 : 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
+}

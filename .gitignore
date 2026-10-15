@@ -1,0 +1,12 @@
+node_modules
+.next
+.env.local
+.vercel
+.env*
+!.env.local.example
+*.bak_*
+sauvegarde_*.txt
+carnet_espace_*.json
+.claude
+.DS_Store
+*.tgz

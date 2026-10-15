@@ -1,0 +1,29 @@
+{
+  "name": "Resist ! — outils pour s'organiser",
+  "short_name": "Resist !",
+  "description": "Textes à signer entre organisations, sondages de réunion, et Paraphe pour ranger ses pétitions.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F2F1F6",
+  "theme_color": "#4B2AEF",
+  "lang": "fr",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "share_target": {
+    "action": "/paraphe",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": { "title": "title", "text": "text", "url": "url" }
+  },
+  "launch_handler": { "client_mode": "navigate-existing" },
+  "shortcuts": [
+    { "name": "Paraphe — mes pétitions", "short_name": "Paraphe", "url": "/paraphe", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Coller un lien de pétition", "short_name": "Coller", "url": "/paraphe?coller=1", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Nouveau sondage de date", "short_name": "Réunion", "url": "/reunion/nouveau", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

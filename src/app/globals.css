@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+
+body {
+  background: #F2F1F6;
+  color: #0E0E12;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Le trait sous "Resist !" — se trace au chargement, puis ne bouge plus. */
+@keyframes stroke-in { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+.stroke-in { transform-origin: left; animation: stroke-in .5s cubic-bezier(.2,.8,.2,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stroke-in { animation: none; }
+  * { transition-duration: 1ms !important; }
+}
+
+.field {
+  @apply w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-[15px]
+         outline-none transition placeholder:text-black/35
+         focus:border-violet focus:ring-4 focus:ring-violet/15;
+}
+.label { @apply mb-1.5 block text-[13px] font-medium text-black/70; }
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3
+         text-[15px] font-semibold transition focus-visible:outline-none
+         focus-visible:ring-4 focus-visible:ring-violet/30 disabled:opacity-40;
+}
+.btn-primary { @apply btn bg-violet text-white hover:bg-violet-dark; }
+.btn-ghost { @apply btn border border-violet/40 bg-white text-violet hover:bg-violet-wash; }
+.btn-dark { @apply btn bg-ink text-white hover:bg-black; }
+.card { @apply rounded-2xl bg-white shadow-card; }
+
+/* Double curseur de Réunion : deux input range superposés, seules les poignées attrapent le doigt. */
+.range-thumb {
+  @apply pointer-events-none absolute inset-0 h-6 w-full appearance-none bg-transparent;
+}
+.range-thumb::-webkit-slider-thumb {
+  @apply pointer-events-auto h-6 w-6 cursor-pointer appearance-none rounded-full border-4 border-white bg-violet shadow;
+}
+.range-thumb::-moz-range-thumb {
+  @apply pointer-events-auto h-5 w-5 cursor-pointer rounded-full border-4 border-white bg-violet shadow;
+}
+
+/* Ambiance Réunion (maquette de LOX) : orange vif, texte blanc sur l'orange, panneaux crème ;
+   le logo « Resist ! » (a.group) reste violet. */
+.amb-reunion .text-violet:not(a.group > *), .amb-reunion .hover\:text-violet:hover { color: #FF7A00; }
+.amb-reunion .bg-violet:not(a.group > *), .amb-reunion .btn-primary { background-color: #FF7A00; color: #fff; }
+.amb-reunion .hover\:bg-violet-dark:hover, .amb-reunion .btn-primary:hover { background-color: #E86A00; }
+.amb-reunion .bg-violet-wash, .amb-reunion .hover\:bg-violet-wash:hover { background-color: #FDFBE6; }
+.amb-reunion .border-violet { border-color: #FF7A00; }
+.amb-reunion .border-violet\/50 { border-color: rgb(255 122 0 / .5); }
+.amb-reunion .decoration-violet\/40 { text-decoration-color: rgb(255 122 0 / .45); }
+.amb-reunion .accent-violet { accent-color: #FF7A00; }
+/* Poignées du double curseur : orange aussi (les pseudo-éléments échappent aux règles ci-dessus). */
+.amb-reunion .range-thumb::-webkit-slider-thumb { background-color: #FF7A00; }
+.amb-reunion .range-thumb::-moz-range-thumb { background-color: #FF7A00; }
+/* Fond de page blanc sur Réunion, comme la maquette (gris ailleurs). */
+body:has(.amb-reunion) { background: #fff; }
+
+/* Ambiance Textes (15/10/2026) : bleu clair et franc, comme l'orange de Réunion et le rose de Paraphe ;
+   le logo « Resist ! » (a.group) reste violet. */
+.amb-textes .text-violet:not(a.group > *), .amb-textes .hover\:text-violet:hover, .amb-textes .text-violet-dark { color: #1A7CF0; }
+.amb-textes .bg-violet:not(a.group > *), .amb-textes .btn-primary { background-color: #1A7CF0; color: #fff; }
+.amb-textes .hover\:bg-violet-dark:hover, .amb-textes .btn-primary:hover, .amb-textes .bg-violet-dark { background-color: #1166D6; }
+.amb-textes .bg-violet-wash, .amb-textes .hover\:bg-violet-wash:hover, .amb-textes .btn-ghost:hover { background-color: #E5F1FF; }
+.amb-textes .bg-violet-wash\/60, .amb-textes .bg-violet-wash\/50 { background-color: rgb(229 241 255 / .7); }
+.amb-textes .border-violet { border-color: #1A7CF0; }
+.amb-textes .btn-ghost { border-color: rgb(26 124 240 / .4); color: #1A7CF0; }
+.amb-textes .decoration-violet\/40 { text-decoration-color: rgb(26 124 240 / .45); }
+.amb-textes .accent-\[\#4B2AEF\], .amb-textes .accent-violet { accent-color: #1A7CF0; }
+.amb-textes .field:focus { border-color: #1A7CF0; --tw-ring-color: rgb(26 124 240 / .15); }
+/* Fond blanc pour Textes et Mon espace, comme Réunion : leurs panneaux pâles ressortent mieux. */
+body:has(.amb-textes) { background: #fff; }

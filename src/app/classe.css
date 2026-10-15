@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Resist ! — look « Classe » (cookie resist_theme=classe). Sans le cookie,
+   rien ne change. Sobre et passe-partout : blanc cassé, noir, titres à
+   empattements, filets fins, angles droits (aucun bouton rond).
+   ========================================================================== */
+.classe {
+  --cl-ink: #17171A;
+  --cl-paper: #FBF8EF; /* coquille d'œuf clair */
+  --cl-line: #E6E0D0;
+  --cl-accent: #1F3A5F; /* bleu nuit, discret */
+  --cl-wash: #EAEEF3;
+}
+
+.classe body { background: var(--cl-paper); color: var(--cl-ink); }
+
+/* Titres : serif élégant, pas d'italique forcé */
+.classe h1, .classe h2, .classe .font-display {
+  font-family: var(--font-classe), Georgia, serif !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  letter-spacing: 0;
+}
+.classe h1 { line-height: 1.1; }
+.classe h2 { font-size: 1.3em; }
+
+/* Couleurs : le violet devient bleu nuit */
+.classe .text-violet { color: var(--cl-accent) !important; }
+.classe .bg-violet { background-color: var(--cl-ink) !important; }
+.classe .bg-violet-wash, .classe .bg-violet-wash\/40 { background-color: var(--cl-wash) !important; }
+.classe .border-violet, .classe .border-violet\/50, .classe .border-violet\/40 { border-color: var(--cl-ink) !important; }
+.classe .accent-violet { accent-color: var(--cl-ink); }
+.classe .text-moss { color: var(--cl-accent) !important; }
+.classe .bg-moss\/10 { background-color: var(--cl-wash) !important; }
+.classe hr.border-violet { border-color: var(--cl-ink) !important; border-top-width: 1px !important; }
+
+/* Logo : serif, filet fin dessous */
+.classe a.group > span:first-child { color: var(--cl-ink) !important; }
+.classe a.group > span.stroke-in { background: var(--cl-ink) !important; height: 1.5px !important; border-radius: 0 !important; }
+
+/* Cartes et blocs : angles droits, filet fin, pas d'ombre lourde */
+.classe .card, .classe article, .classe .rounded-2xl, .classe .rounded-3xl, .classe .rounded-xl, .classe .rounded-lg {
+  border-radius: 0 !important;
+}
+.classe .card, .classe article {
+  border: 1px solid var(--cl-line) !important;
+  box-shadow: none !important;
+  background: #fff;
+}
+.classe main > div.card, .classe main > .card { box-shadow: 0 1px 2px rgba(0, 0, 0, .04) !important; }
+.classe article > div:first-child { border-radius: 0 !important; filter: saturate(.35); }
+
+/* Boutons : rectangles noirs, petites capitales espacées */
+.classe .btn-primary, .classe .btn-dark, .classe .btn-ghost, .classe button.rounded-xl, .classe a.rounded-xl, .classe .rounded-full {
+  border-radius: 0 !important;
+}
+.classe .btn-primary, .classe .btn-dark, .classe .btn-ghost {
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .82em !important;
+  box-shadow: none !important;
+  transition: background .15s, color .15s;
+}
+.classe .btn-primary, .classe .btn-dark { background: var(--cl-ink) !important; color: #fff !important; border: 1px solid var(--cl-ink) !important; }
+.classe .btn-primary:hover, .classe .btn-dark:hover { background: var(--cl-accent) !important; border-color: var(--cl-accent) !important; }
+.classe .btn-ghost { background: transparent !important; color: var(--cl-ink) !important; border: 1px solid var(--cl-ink) !important; }
+.classe .btn-ghost:hover { background: var(--cl-ink) !important; color: #fff !important; }
+
+/* Champs : filet fin, angle droit */
+.classe .field, .classe input[type=text], .classe input:not([type]), .classe select, .classe textarea {
+  border-radius: 0 !important;
+  border-color: var(--cl-line) !important;
+  background: #fff;
+}
+.classe .field:focus, .classe input:focus, .classe select:focus, .classe textarea:focus {
+  border-color: var(--cl-ink) !important;
+  box-shadow: 0 0 0 1px var(--cl-ink) !important;
+}
+
+/* Réunion : grille en bleu nuit */
+.classe [data-c] { filter: hue-rotate(60deg) saturate(.7); }
+.classe .range-thumb::-webkit-slider-thumb { border-radius: 0; background: var(--cl-ink); }
+.classe .range-thumb::-moz-range-thumb { border-radius: 0; background: var(--cl-ink); }

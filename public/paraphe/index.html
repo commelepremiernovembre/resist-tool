@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Resist ! Paraphe</title>
+<link rel="icon" href="/icon-paraphe.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="/manifest.webmanifest">
+<script>/* Version punk de Resist (essai) : même cookie que le reste de l'app. */
+{ const t=(document.cookie.match(/(?:^|; )resist_theme=(\w+)/)||[])[1]||'normal'; /* un seul design (normal) depuis le 12/10/2026 */ }</script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Space+Mono:wght@400;700&family=Instrument+Serif&family=Permanent+Marker&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+html.punk{--vert:#FF2E88;--vert-f:#111;--vert-pale:#E9FF3B;--texte:#111;--doux:#3a3a3a;--trait:#111;--fond:#F3EFE4;--r:0px}
+html.punk body{background-color:#F3EFE4;background-image:radial-gradient(rgba(17,17,17,.13) 1px,transparent 1.2px);background-size:7px 7px}
+html.punk h1,html.punk h3,html.punk .titre-vue{font-family:"Rubik Mono One",system-ui,sans-serif;text-transform:uppercase;letter-spacing:-.01em;word-spacing:-.35em}
+html.punk h2{font-family:"Space Mono",monospace;font-weight:700;text-transform:uppercase}
+html.punk .fiche,html.punk .reglage,html.punk .champ input,html.punk aside .astuce,html.punk dialog .feuille{border:3px solid #111!important;border-radius:0!important;box-shadow:5px 5px 0 #111!important}
+html.punk .b,html.punk .nav,html.punk .puce,html.punk .retour-resist,html.punk #seg button{border-radius:0!important;font-family:"Space Mono",monospace;font-weight:700;text-transform:uppercase}
+html.punk .b,html.punk .retour-resist{border:3px solid #111!important;box-shadow:3px 3px 0 #111}
+html.punk .b.vert{background:#FF2E88!important;color:#fff!important}
+html.punk .retour-resist{color:#111!important;background:#E9FF3B!important}
+html.punk .chip{border-radius:0!important;border:2px solid #111;background:#E9FF3B!important;color:#111!important}
+html.punk .vignette{border-radius:0!important;filter:grayscale(1) contrast(1.4);border:2px solid #111}
+html.punk .n{border-radius:0!important}
+/* Look Grunge (ambiance Nirvana) : papier sali, feutre, machine à écrire, bleu piscine */
+html.nirvana{--vert:#1E6AA8;--vert-f:#1B1B1D;--vert-pale:#DCE8F1;--texte:#1B1B1D;--doux:#3d3a35;--trait:#1B1B1D;--fond:#DEDAD0;--r:3px}
+html.nirvana body{background-color:#DEDAD0;background-image:radial-gradient(rgba(27,27,29,.10) .8px,transparent 1px);background-size:5px 5px}
+html.nirvana body::before{content:'';display:block;height:12px;background:repeating-linear-gradient(90deg,rgba(27,27,29,.5) 0 6px,transparent 6px 22px),repeating-linear-gradient(0deg,rgba(27,27,29,.4) 0 3px,transparent 3px 7px),linear-gradient(90deg,#9E2B25 0 50%,#3F5A3A 50% 100%);background-size:44px 100%,100% 7px,88px 100%;border-bottom:2px solid #1B1B1D}
+html.nirvana h1,html.nirvana h2,html.nirvana h3,html.nirvana .titre-vue{font-family:"Permanent Marker","Marker Felt",cursive;font-weight:400}
+html.nirvana .fiche,html.nirvana .reglage,html.nirvana aside .astuce,html.nirvana dialog .feuille{background:#F1EEE6!important;border:2px solid #1B1B1D!important;border-radius:3px!important;box-shadow:4px 5px 0 rgba(27,27,29,.85)!important}
+html.nirvana .b,html.nirvana .retour-resist{font-family:"Special Elite","Courier New",monospace;font-weight:400;border:2px solid #1B1B1D!important;border-radius:14px 4px 12px 3px/4px 12px 3px 14px!important;box-shadow:2px 3px 0 #1B1B1D}
+html.nirvana .b.vert{background:#1E6AA8!important;color:#fff!important}
+html.nirvana .retour-resist{background:#1B1B1D!important;color:#F1EEE6!important}
+html.nirvana .chip{background:#DCE8F1!important;color:#1B1B1D!important}
+html.nirvana .vignette{filter:grayscale(.6) contrast(1.15) sepia(.15)}
+/* Look Classe : sobre, serif, angles droits */
+html.classe{--vert:#17171A;--vert-f:#1F3A5F;--vert-pale:#EAEEF3;--texte:#17171A;--fond:#FBF8EF;--r:0}
+html.classe body{background:#FBF8EF}
+html.classe h1,html.classe h2,html.classe h3,html.classe .titre-vue{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:0}
+html.classe *{border-radius:0!important}
+html.classe .fiche,html.classe .reglage{border:1px solid #E6E0D0!important;box-shadow:none!important;background:#fff!important}
+html.classe .b,html.classe .retour-resist{font-weight:500;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;box-shadow:none}
+html.classe .b.vert,html.classe .retour-resist{background:#17171A!important;color:#fff!important;border:1px solid #17171A!important}
+html.classe .chip{background:#EAEEF3!important;color:#1F3A5F!important}
+</style>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,800;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Accent : rose franc de Paraphe (15/10/2026, l'ancien rose pâle faisait délavé). --sur-vert = texte posé sur l'accent. */
+  --vert:#DB1A74; --vert-f:#DB1A74; --vert-pale:#FDE8F2; --sur-vert:#fff; --vert-survol:#B8105F;
+  --texte:#0E0E12; --doux:#5f6170; --trait:#e4e3ea;
+  --fond:#F2F1F6; --carte:#fff; --rouge:#dc2626;
+  --rail:204px; --r:12px;
+  font-family:Inter,-apple-system,system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--fond);color:var(--texte);font-size:15px;line-height:1.45}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--vert-f);outline-offset:2px}
+.app{display:flex;min-height:calc(100vh / var(--z,1))}
+
+.rail{width:var(--rail);flex:none;background:var(--carte);border-right:1px solid var(--trait);
+  padding:20px 14px;display:none;flex-direction:column;gap:4px;position:sticky;top:0;height:calc(100vh / var(--z,1));overflow:auto}
+.logo{display:block;padding:0 6px 18px}
+/* Marque Resist, comme le Wordmark des autres pages : retour à l'accueil. */
+.resist{display:inline-block;text-decoration:none;color:#4B2AEF;font:italic 800 24px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em}
+.resist::after{content:"";display:block;height:3px;width:70%;margin-top:3px;border-radius:99px;background:#4B2AEF}
+.logo .outil{display:block;margin-top:10px;font-size:13px;font-weight:600;color:var(--vert-f);letter-spacing:.02em}
+.logo .outil b{color:var(--texte);font-weight:600;display:inline;letter-spacing:.02em;font-size:13px}
+.topbar .resist{display:none}
+/* En-tête comme Réunion (15/10/2026) : logo en haut à gauche, grand titre rose centré, de l'air autour. */
+.haut-page{max-width:1280px;margin:0 auto;padding:22px 16px 6px}
+.haut-page .grand-titre{margin:18px 0 8px;text-align:center;font:800 34px/1.05 Archivo,system-ui,sans-serif;letter-spacing:-.02em;color:var(--vert);text-wrap:balance}
+.haut-page .sous-titre{margin:-8px 0 10px;text-align:center;font-size:17px;font-weight:700;color:var(--vert);line-height:1.1}
+.logo{display:none!important}
+.logo .marque{width:34px;height:34px;border-radius:10px;background:var(--vert-pale);
+  display:grid;place-items:center;border:1px solid var(--vert-survol)}
+.logo b{display:block;font-size:15px;font-weight:700;letter-spacing:.08em}
+.logo span{font-size:11px;color:var(--doux);letter-spacing:.02em}
+.nav{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;border:0;background:none;
+  width:100%;cursor:pointer;color:var(--doux);font-size:14px;text-align:left}
+.nav:hover{background:var(--fond);color:var(--texte)}
+.nav[aria-current="true"]{background:var(--vert-pale);color:var(--vert-f);font-weight:600}
+.nav .n{margin-left:auto;font-size:12px;font-weight:600;background:var(--fond);color:var(--doux);
+  border-radius:99px;padding:1px 8px;min-width:24px;text-align:center}
+.nav[aria-current="true"] .n{background:var(--vert);color:var(--sur-vert)}
+.sep{height:1px;background:var(--trait);margin:12px 6px}
+.astuce{margin-top:auto;background:var(--fond);border:1px solid var(--trait);border-radius:var(--r);
+  padding:12px;font-size:12.5px;color:var(--doux)}
+.astuce b{display:block;color:var(--texte);font-size:12.5px;margin-bottom:6px}
+.astuce em{font-style:normal;color:var(--vert-f);font-weight:600}
+.astuce button{display:block;border:0;background:none;color:var(--vert-f);font-weight:600;font-size:12.5px;padding:8px 0 0;cursor:pointer}
+
+main{flex:1;min-width:0;padding-bottom:92px}
+.topbar{position:sticky;top:0;z-index:6;background:rgba(242,241,246,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--trait);padding:12px 16px;display:flex;gap:10px;align-items:center}
+.champ{flex:1;position:relative;min-width:0}
+.retour-resist{flex:none;display:inline-flex;align-items:center;gap:4px;padding:9px 12px;border:2px solid #4B2AEF;
+  border-radius:10px;background:var(--carte);color:#4B2AEF;font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap}
+.retour-resist:hover{background:#EDE9FE}
+.champ svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.45}
+.champ input{width:100%;padding:11px 12px;border:1px solid var(--trait);border-radius:10px;
+  background:var(--carte);font:inherit;color:inherit}
+.champ input:focus{outline:none;border-color:var(--vert-f);box-shadow:0 0 0 3px #DB1A7422}
+.tb{display:flex;gap:8px}
+.loupe{flex:none;width:42px;height:42px;border-radius:10px;border:1px solid var(--trait);background:var(--carte);color:var(--vert-f);display:grid;place-items:center;cursor:pointer}
+/* Vue en icônes : les fiches en mosaïque, image en grand, sans résumé. */
+.liste.grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.col{min-width:0}
+@media(min-width:900px){.liste.grille{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}}
+.grille .fiche{padding:10px;gap:8px}
+.grille .haut{flex-direction:column;gap:9px}
+.grille .vignette{width:100%;height:auto;aspect-ratio:16/10;font-size:44px}
+.grille .coeur{width:100%}
+.grille .resume,.grille .note,.grille .chip{display:none}
+.grille .fiche h3{font-size:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.grille .bas{margin-top:auto}
+.grille .bas .b{flex:1;white-space:normal;min-width:0}
+/* Mosaïque : « Signée ? » sur sa ligne, les deux réponses dessous (sinon ça déborde sur la fiche voisine). */
+.grille .bas.confirmer{flex-wrap:wrap;justify-content:center}
+.grille .bas.confirmer .question{flex-basis:100%;text-align:center}
+.loupe[aria-pressed="true"]{background:var(--vert);border-color:var(--vert);color:var(--sur-vert)}
+.b{border:1px solid var(--trait);background:var(--carte);color:var(--texte);border-radius:10px;
+  padding:11px 14px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;
+  align-items:center;justify-content:center;gap:7px;white-space:nowrap;text-decoration:none}
+.b:hover{border-color:#cbd5e1}
+.b.vert{background:var(--vert);border-color:var(--vert);color:var(--sur-vert)}
+.b.vert:hover{background:var(--vert-survol);border-color:var(--vert-survol)}
+/* Action (pas un état) : bouton clair, pour ne pas faire croire que c'est déjà signé. */
+.bas.confirmer{align-items:center}
+.bas.confirmer .question{font-weight:600;font-size:14px;padding:0 4px;white-space:nowrap}
+
+.zone{padding:18px 16px 0}
+.titre-vue{font-size:20px;font-weight:700;margin:0 0 2px;letter-spacing:-.01em}
+.sous{color:var(--doux);font-size:13px;margin:0 0 14px}
+.colonnes{display:grid;grid-template-columns:minmax(0,1fr);gap:26px}
+.entete{display:flex;align-items:baseline;gap:7px;margin:0 0 3px}
+.entete h2{font-size:15px;font-weight:700;color:var(--texte);text-transform:uppercase;letter-spacing:.05em;margin:0}
+.entete span{color:var(--doux);font-size:14px;font-weight:600}
+.entete.gris h2{color:var(--texte)}
+.entete.repli{cursor:pointer;user-select:none}
+.entete.repli em{font-style:normal;font-size:17px;color:var(--doux);margin-left:4px}
+.liste{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.seg{display:flex;background:#eaeef3;border-radius:10px;padding:3px;margin:0 0 14px}
+.seg button{flex:1;border:0;background:none;padding:9px;border-radius:8px;font-size:13.5px;font-weight:600;color:var(--doux);cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--carte);color:var(--texte);box-shadow:0 1px 3px rgba(15,23,42,.09)}
+
+.fiche{background:var(--carte);border:0;border-radius:14px;padding:13px;
+  display:flex;flex-direction:column;gap:11px;animation:pose .22s ease both}
+@keyframes pose{from{opacity:0;transform:translateY(5px)}}
+.haut{display:flex;gap:12px;align-items:flex-start}
+.vignette{width:62px;height:62px;border-radius:12px;flex:none;display:grid;place-items:center;font-size:30px;line-height:1;position:relative;overflow:hidden}
+.vignette img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff}
+.coeur{min-width:0;flex:1}
+.ligne1{display:flex;align-items:flex-start;gap:8px}
+.fiche h3{font-size:15px;font-weight:700;margin:0;line-height:1.3;letter-spacing:-.01em;overflow-wrap:anywhere;flex:1}
+.chip{font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;white-space:nowrap;flex:none}
+.orga{color:var(--doux);font-size:13px;margin-top:3px}
+.info{color:var(--doux);font-size:12px;margin-top:4px;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.src{font-weight:600}
+.dbl{color:var(--rouge);background:#fef2f2;border-radius:99px;padding:1px 7px;font-size:11px;font-weight:600}
+.note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:7px 9px;font-size:13px;color:#78350f}
+.bas{display:flex;gap:8px;align-items:center}
+.bas .b{flex:none;padding:6px 14px;font-size:13px}
+.bas{justify-content:flex-end}
+.resume{margin:3px 0 2px;font-size:13px;line-height:1.4;color:var(--doux);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.kebab{border:0;background:none;color:var(--vert-f);cursor:pointer;padding:4px 2px;font-size:17px;line-height:1;flex:none;border-radius:6px}
+.kebab:hover{background:var(--vert-pale);color:var(--vert-f)}
+.fiche .bas a.b:not(.vert){border-color:#F7BCD7}
+.fiche .bas a.b:not(.vert):hover{border-color:var(--vert-f);background:var(--vert-pale)}
+.pastille{width:32px;height:32px;border-radius:50%;background:var(--vert-pale);border:1.5px solid var(--vert);
+  color:var(--vert-f);display:grid;place-items:center;flex:none;font-size:15px;font-weight:700}
+.fiche.signee .pastille{animation:tampon .4s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes tampon{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.fiche.signee{background:#fcfefd}
+.code-carnet{font:600 1.35rem/1.2 ui-monospace,Menlo,monospace;letter-spacing:.06em;margin:.6rem 0 .8rem;color:var(--vert-f)}
+.etat-sync{font-size:.85rem;color:var(--doux);margin:.6rem 0 0}
+.fiche.archivee{background:#fafbfc;border-style:dashed}
+.fav{color:#f59e0b}
+.vide{border:1px dashed var(--trait);border-radius:14px;padding:26px 16px;color:var(--doux);
+  font-size:14px;text-align:center;background:var(--carte)}
+.chargement{font-size:11px;color:#94a3b8}
+
+.menu{position:fixed;z-index:30;background:var(--carte);border:1px solid var(--trait);border-radius:12px;
+  box-shadow:0 12px 34px rgba(15,23,42,.16);padding:5px;min-width:200px}
+.menu button{display:flex;align-items:center;gap:9px;width:100%;border:0;background:none;padding:9px 10px;
+  border-radius:8px;font-size:13.5px;color:var(--texte);cursor:pointer;text-align:left}
+.menu button:hover{background:var(--fond)}
+.menu button.danger{color:var(--rouge)}
+.voile{position:fixed;inset:0;z-index:29}
+
+.basse{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--carte);border-top:1px solid var(--trait);
+  display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+.basse button{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 2px;font-size:10.5px;color:var(--doux);cursor:pointer}
+.basse button[aria-current="true"]{color:var(--vert-f);font-weight:600}
+.basse span{font-size:16px;line-height:1}
+.fab{position:fixed;right:16px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:9;width:56px;height:56px;
+  border-radius:50%;background:var(--vert);color:var(--sur-vert);border:0;font-size:27px;line-height:1;cursor:pointer;
+  box-shadow:0 8px 22px rgba(219,26,116,.3)}
+
+/* 15/10/2026 : fond blanc ; menu à gauche et contenu dans des blocs rose pâle, sans liseré.
+   Textes du menu en noir, l'onglet en cours en gras. */
+body{background:#fff}
+.topbar{background:rgba(255,255,255,.94);border-bottom:0}
+.nav{color:var(--texte)}
+.nav[aria-current="true"]{background:#fff;color:var(--texte);font-weight:700}
+.nav .ico{color:inherit}
+.zone{background:var(--vert-pale);border:0;border-radius:24px;margin:4px 12px 16px;padding:16px 14px 18px}
+@media(min-width:900px){
+  .app{padding:16px 32px 32px;gap:24px;max-width:1280px;margin:0 auto}
+  .haut-page{padding:28px 32px 10px}
+  .haut-page .grand-titre{font-size:60px;margin:22px 0 0}
+  .haut-page .sous-titre{font-size:20px;margin:-6px 0 20px}
+  .rail{background:var(--vert-pale);border:0;border-radius:24px;top:16px;height:auto;max-height:calc(100vh / var(--z,1) - 32px);align-self:flex-start}
+  .rail .astuce{margin-top:18px}
+  .nav:hover{background:rgba(255,255,255,.7)}
+  .nav .n{background:#fff}
+  .astuce{background:#fff;border-color:transparent}
+  .topbar{padding:0 0 14px;position:static}
+  .zone{margin:0;padding:22px 24px 24px}
+  .topbar .resist{display:none}
+  .rail{display:flex}
+  .basse,.fab{display:none}
+  main{padding-bottom:32px}
+  .tb{display:flex}
+  .zone{max-width:1180px}
+  .colonnes{grid-template-columns:1fr 1fr;gap:28px}
+  .colonnes.histo-ferme{grid-template-columns:1fr 240px}
+  .seg{display:none !important}
+}
+
+dialog{border:0;padding:0;background:none;width:min(540px,100%);margin:auto auto 0}
+dialog::backdrop{background:rgba(15,23,42,.45)}
+.feuille{background:var(--carte);border-radius:18px 18px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
+@media(min-width:640px){dialog{margin:auto}.feuille{border-radius:18px}}
+.feuille h2{font-size:18px;font-weight:700;margin:0 0 4px}
+.feuille p.aide{font-size:13px;color:var(--doux);margin:0 0 14px}
+.feuille p{font-size:14px;margin:0 0 10px}
+label{display:block;font-size:12px;font-weight:600;color:var(--doux);margin:12px 0 6px}
+textarea,input[type=text],dialog select{width:100%;padding:11px 12px;border:1px solid var(--trait);border-radius:10px;
+  font:inherit;color:inherit;background:var(--carte)}
+textarea{min-height:82px;resize:vertical;font-size:13.5px}
+textarea:focus,input:focus{outline:none;border-color:var(--vert-f);box-shadow:0 0 0 3px #DB1A7422}
+.puces{display:flex;gap:6px;flex-wrap:wrap}
+.puce{border:1px solid var(--trait);background:var(--carte);border-radius:99px;padding:8px 13px;
+  font-size:13px;cursor:pointer;color:var(--doux);font-weight:500}
+.puce[aria-pressed="true"]{background:var(--vert);border-color:var(--vert);color:var(--sur-vert)}
+.fin{display:flex;gap:8px;margin-top:18px}
+.fin .b{flex:1;padding:12px}
+.ruban{position:fixed;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:10;
+  background:var(--carte);border:1px solid var(--trait);border-radius:14px;padding:12px;
+  box-shadow:0 12px 32px rgba(15,23,42,.18);max-width:540px;margin:0 auto;animation:pose .2s ease both}
+.ruban-t{font-size:12px;font-weight:600;color:var(--doux);margin-bottom:9px}
+.ruban-p{display:flex;gap:6px;flex-wrap:wrap}
+@media(min-width:900px){.ruban{bottom:20px}}
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));transform:translateX(-50%);
+  background:var(--texte);color:#fff;padding:11px 16px;border-radius:99px;font-size:13.5px;z-index:40;
+  box-shadow:0 8px 24px rgba(15,23,42,.3);max-width:88vw;text-align:center}
+code{font-size:12px;background:var(--fond);padding:1px 5px;border-radius:5px;word-break:break-all}
+.reglage{background:var(--carte);border:1px solid var(--trait);border-radius:14px;padding:14px;margin-bottom:10px;max-width:620px}
+.reglage h4{margin:0 0 4px;font-size:14px}
+.reglage p{margin:0 0 10px;font-size:13px;color:var(--doux)}
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<header class="haut-page">
+  <a class="resist" href="/" aria-label="Resist ! — revenir à l'accueil">Resist&nbsp;!</a>
+  <h1 class="grand-titre">Paraphe</h1>
+  <p class="sous-titre">mes pétitions</p>
+</header>
+<div class="app">
+  <aside class="rail">
+    <div class="logo">
+      <a class="resist" href="/" aria-label="Resist ! — revenir à l'accueil">Resist&nbsp;!</a>
+      <span class="outil">Paraphe <b>· mes pétitions</b></span>
+    </div>
+    <button class="nav" data-vue="accueil" aria-current="true">✎ À signer <span class="n" id="nA">0</span></button>
+    <button class="nav" data-vue="signees">✓ Historique <span class="n" id="nS">0</span></button>
+    <button class="nav" data-vue="archivee">⌫ Archivées <span class="n" id="nZ">0</span></button>
+    <div class="sep"></div>
+    <button class="nav" data-vue="favoris">★ Favoris <span class="n" id="nF">0</span></button>
+    <button class="nav" data-vue="doublons">⧉ Doublons <span class="n" id="nD">0</span></button>
+    <button class="nav" data-vue="reglages">⚙ Réglages</button>
+    <div class="astuce">
+      <b>Comment ajouter une pétition ?</b>
+      Gmail, SMS, Signal : <em>Partager → Resist !</em><br>
+      WhatsApp, Telegram : <em>Copier</em> le message, puis ouvrir Paraphe et toucher le bandeau.<br>
+      iPhone : copier le lien, puis <em>Coller</em> en haut.
+      <button id="btnAide2">En savoir plus</button>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <a class="resist" href="/" aria-label="Resist ! — revenir à l'accueil">Resist&nbsp;!</a>
+      <!-- Un seul champ : on y colle le lien d'une pétition ; la loupe le passe en recherche. -->
+      <button class="loupe" id="btnVue" aria-label="Afficher en icônes" title="Icônes / liste"></button>
+      <button class="loupe" id="btnLoupe" aria-pressed="false" aria-label="Rechercher une pétition" title="Rechercher">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      </button>
+      <div class="champ">
+        <input id="recherche" type="text" inputmode="url" placeholder="Collez ici le lien d’une pétition…" aria-label="Lien d’une pétition" autocomplete="off">
+      </div>
+      <div class="tb">
+        <button class="b vert" id="btnAjouter">Coller</button>
+      </div>
+    </div>
+    <div class="zone">
+      <div class="seg" id="seg">
+        <button data-col="attente" aria-selected="true">À signer</button>
+        <button data-col="signee" aria-selected="false">Historique</button>
+      </div>
+      <div id="panneau"></div>
+    </div>
+  </main>
+</div>
+
+<nav class="basse">
+  <button data-vue="accueil" aria-current="true"><span>✎</span>Accueil</button>
+  <button data-vue="archivee"><span>⌫</span>Archivées</button>
+  <button data-vue="favoris"><span>★</span>Favoris</button>
+  <button data-vue="reglages"><span>≡</span>Plus</button>
+</nav>
+<button class="fab" id="fab" aria-label="Ajouter un lien">+</button>
+
+<dialog id="feuille"><div class="feuille">
+  <h2>Ajouter une pétition</h2>
+  <p class="aide">Colle un lien ou tout le message reçu — les adresses sont repérées automatiquement et le titre est récupéré tout seul.</p>
+  <label for="fLiens">Lien ou message</label>
+  <textarea id="fLiens" placeholder="https://…"></textarea>
+  <label for="fNote">Note (facultatif)</label>
+  <input type="text" id="fNote" placeholder="Ex. regarder avant vendredi">
+  <label for="fSource">Reçue par</label>
+  <select id="fSource"><option>Signal</option><option>Telegram</option><option>WhatsApp</option><option>Gmail</option><option>SMS</option><option selected>Autre</option></select>
+  <div class="fin">
+    <button class="b" id="fAnnuler">Annuler</button>
+    <button class="b vert" id="fValider">Ajouter</button>
+  </div>
+</div></dialog>
+
+<dialog id="aide"><div class="feuille">
+  <h2>Mode d’emploi</h2>
+  <p class="aide">Trois étapes, c’est tout.</p>
+  <div id="aideCorps"></div>
+  <div class="fin"><button class="b vert" id="aideFermer">Compris</button></div>
+</div></dialog>
+
+<input type="file" id="fichier" accept="application/json" hidden>
+
+<script>
+/* ================= stockage ================= */
+const CLE='paraphe.v2';
+let modeRecherche=false; // le champ du haut sert à coller un lien, ou à chercher (loupe)
+let memoire=null;
+function lireTout(){
+  try{
+    const v=localStorage.getItem(CLE); if(v) return JSON.parse(v);
+    const a=localStorage.getItem('paraphe.v1');
+    return a?JSON.parse(a).map(i=>({...i,etat:i.signee?'signee':'attente',recus:1,sources:[i.source]})):[];
+  }catch(e){ return memoire||[]; }
+}
+let items=lireTout();
+
+/* ================= carnet partagé (Supabase, via /api/carnet) =================
+   Chaque personne a un carnet, retrouvé par son code secret : le même sur le téléphone
+   et l'ordinateur. L'appareil garde une copie (marche hors ligne) et synchronise dès que
+   possible. Chaque pétition porte « maj » ; une suppression laisse une trace datée. */
+const K_CODE='paraphe.carnet', K_VUS='paraphe.vus', K_SUPP='paraphe.supprimes';
+const lireJSON=(k,d)=>{ try{ return JSON.parse(localStorage.getItem(k))||d; }catch(e){ return d; } };
+let codeCarnet=localStorage.getItem(K_CODE)||'';
+let vus=lireJSON(K_VUS,{});          // id → empreinte du dernier état connu, pour dater les changements
+let supprimes=lireJSON(K_SUPP,[]);
+const sansTemp=i=>{ const {chargement,maj,...r}=i; return r; };
+const signe=i=>JSON.stringify(sansTemp(i));
+function nouveauCode(){
+  const a='abcdefghijkmnpqrstuvwxyz23456789', b=crypto.getRandomValues(new Uint8Array(12));
+  const c=[...b].map(x=>a[x%a.length]).join(''); return c.slice(0,4)+'-'+c.slice(4,8)+'-'+c.slice(8);
+}
+function ecrire(l){
+  const now=new Date().toISOString(), ids=new Set(l.map(i=>i.id));
+  (memoire||[]).forEach(i=>{ if(!ids.has(i.id)){ supprimes.push({id:i.id,maj:now}); delete vus[i.id]; } });
+  l.forEach(i=>{ const s=signe(i); if(vus[i.id]!==s){ i.maj=now; vus[i.id]=s; } });
+  memoire=l;
+  try{ localStorage.setItem(CLE,JSON.stringify(l)); localStorage.setItem(K_VUS,JSON.stringify(vus)); localStorage.setItem(K_SUPP,JSON.stringify(supprimes)); }catch(e){}
+  planifier();
+}
+let minuterie=null, enCours=false, aRefaire=false, etatSync='';
+function planifier(){ clearTimeout(minuterie); minuterie=setTimeout(synchroniser,700); }
+async function synchroniser(){
+  if(!codeCarnet || !navigator.onLine) return;
+  if(enCours){ aRefaire=true; return; }
+  enCours=true;
+  try{
+    const r=await fetch('/paraphe/api/carnet',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({code:codeCarnet,items:items.map(sansTemp).map((x,k)=>({...x,maj:items[k].maj})),supprimes})});
+    if(!r.ok) throw new Error();
+    const d=await r.json();
+    // Ce qui a bougé ici pendant l'envoi garde la priorité s'il est plus récent.
+    const loc=new Map(items.map(i=>[i.id,i])), supp=new Map(d.supprimes.map(x=>[x.id,x.maj]));
+    const avant=JSON.stringify(items.map(signe));
+    const fusion=new Map(d.items.map(i=>[i.id,i]));
+    loc.forEach((i,id)=>{ const r2=fusion.get(id); if(!r2 ? !(supp.get(id)>=(i.maj||'')) : (i.maj||'')>(r2.maj||'')) fusion.set(id,i); });
+    // On met à jour les fiches existantes sur place : l'écran garde des références vers elles.
+    items=[...fusion.values()].map(r=>{
+      const l=loc.get(r.id); if(!l||l===r) return r;
+      const ch=l.chargement; Object.keys(l).forEach(k=>{ if(!(k in r)) delete l[k]; });
+      Object.assign(l,r); if(ch) l.chargement=true; return l;
+    }).sort((x,y)=>(y.ajoute||'').localeCompare(x.ajoute||''));
+    items.forEach(i=>{ vus[i.id]=signe(i); });
+    supprimes=d.supprimes; memoire=items;
+    try{ localStorage.setItem(CLE,JSON.stringify(items)); localStorage.setItem(K_VUS,JSON.stringify(vus)); localStorage.setItem(K_SUPP,JSON.stringify(supprimes)); }catch(e){}
+    etatSync='ok';
+    if(JSON.stringify(items.map(signe))!==avant && typeof rendre==='function') rendre();
+  }catch(e){ etatSync='erreur'; }
+  enCours=false;
+  if(aRefaire){ aRefaire=false; planifier(); }
+}
+function relier(code,silencieux){
+  code=(code||'').trim().toLowerCase().replace(/\s+/g,'');
+  if(!/^[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$/.test(code)){ toast('Ce code ne ressemble pas à un code de carnet.'); return false; }
+  codeCarnet=code; localStorage.setItem(K_CODE,code);
+  // Les pétitions déjà sur cet appareil rejoignent le carnet : rien n'est perdu.
+  synchroniser(); if(!silencieux) toast('Carnet relié. Les pétitions arrivent…'); return true;
+}
+const lienCarnet=()=>location.origin+'/paraphe?carnet='+codeCarnet;
+{ const p=new URLSearchParams(location.search).get('carnet');
+  if(p && p!==codeCarnet) relier(p,true);
+  else if(!codeCarnet){ codeCarnet=nouveauCode(); localStorage.setItem(K_CODE,codeCarnet); }
+  memoire=items; items.forEach(i=>{ if(!(i.id in vus)) vus[i.id]=signe(i); }); }
+addEventListener('online',synchroniser);
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') synchroniser(); });
+setInterval(()=>{ if(document.visibilityState==='visible') synchroniser(); },60000);
+
+/* ================= connaissance du terrain ================= */
+const ORGANISMES=[
+  [/change\.org/i,'Change.org'],[/mesopinions\.com/i,'MesOpinions'],[/avaaz\.org/i,'Avaaz'],
+  [/petitions\.assemblee-nationale\.fr/i,'Assemblée nationale'],[/petitions\.senat\.fr/i,'Sénat'],
+  [/greenpeace\./i,'Greenpeace'],[/amnesty\./i,'Amnesty International'],[/wwf\./i,'WWF'],
+  [/l214\.com/i,'L214'],[/cyberacteurs\.org/i,'Cyberacteurs'],[/leslignesbougent\.org/i,'Les Lignes Bougent'],
+  [/laquadrature\.net/i,'La Quadrature du Net'],[/petitions?\.fr/i,'Pétitions.fr'],[/wemove\.eu/i,'WeMove Europe'],
+  [/eci\.ec\.europa\.eu/i,'Initiative citoyenne européenne'],[/oxfam/i,'Oxfam'],[/foodwatch/i,'Foodwatch'],
+  [/lpo\.fr/i,'LPO'],[/reporterre\.net/i,'Reporterre'],[/attac\.org/i,'Attac'],[/avft\.org/i,'AVFT'],
+  [/agirpourlenvironnement/i,'Agir pour l’environnement'],[/notre-affaire-a-tous/i,'Notre Affaire à Tous'],
+  [/fondation-nicolas-hulot|fnh\.org/i,'Fondation Nicolas Hulot'],[/secours-?populaire/i,'Secours populaire'],
+  [/laligue|ligue-?des-?droits/i,'Ligue des droits de l’Homme'],[/change\.org\/p\//i,'Change.org']
+];
+const VIGNETTES=[
+  ['🐋',/oc[ée]an|mer\b|baleine|marin|corail|p[êe]che/i],
+  ['🌳',/for[êe]t|arbre|amazon|bois|d[ée]forest/i],
+  ['🐝',/abeille|pesticide|n[ée]onicotin|insecte|glyphosate/i],
+  ['🌍',/climat|plastique|pollution|carbone|plan[èe]te/i],
+  ['💧',/\beau\b|rivi[èe]re|nappe|s[ée]cheresse/i],
+  ['🐕',/animal|animaux|chien|chat|[ée]levage|abattoir|fourrure|chasse|corrida|zoo/i],
+  ['❤️',/violence|conjugal|f[ée]minicide|viol\b|harc[èe]l/i],
+  ['⚖️',/justice|droit|libert[ée]|censure|surveillance|\bloi\b|prison/i],
+  ['🏥',/sant[ée]|h[ôo]pital|soin|m[ée]dic/i],
+  ['🎓',/[ée]cole|universit[ée]|[ée]tudiant|enseign/i],
+  ['🏠',/logement|loyer|expuls|h[ée]bergement/i],
+  ['📍',/quartier|commune|mairie|friche|jardin|square|gare|piscine/i]
+];
+// Une couleur par thème (étiquette et fond de vignette).
+const COULEURS={
+  'Environnement':['#ecfdf5','#15803d'],'Animaux':['#fff7ed','#b45309'],
+  'Société':['#eef2ff','#4338ca'],'Local':['#eff6ff','#0369a1'],'Autre':['#f1f5f9','#475569']
+};
+const SRC_COULEUR={Gmail:'#d93025',Mail:'#d93025',WhatsApp:'#128c7e',Signal:'#3a76f0',
+  Telegram:'#229ed9',SMS:'#64748b',iMessage:'#64748b',Autre:'#64748b'};
+const SOURCES=['Signal','Telegram','WhatsApp','Gmail','SMS','Autre'];
+
+function organisme(u,site){ for(const [re,n] of ORGANISMES) if(re.test(u)) return n; return site||hote(u); }
+function vignette(t){ for(const [e,re] of VIGNETTES) if(re.test(t)) return e; return '📄'; }
+function theme(t){
+  if(/animal|animaux|chien|chat|[ée]levage|abattoir|chasse|corrida|fourrure|zoo/i.test(t)) return 'Animaux';
+  if(/climat|[ée]colog|pollu|pesticide|for[êe]t|arbre|\beau\b|oc[ée]an|nucl[ée]aire|[ée]nergie|plastique|abeille|esp[èe]ce/i.test(t)) return 'Environnement';
+  if(/violence|justice|droit|libert[ée]|sant[ée]|[ée]cole|logement|salaire|retraite|travail|migrant|discrimin|f[ée]minis|conjugal/i.test(t)) return 'Société';
+  if(/quartier|commune|mairie|friche|gare|piscine/i.test(t)) return 'Local';
+  return 'Autre';
+}
+
+/* ================= utilitaires ================= */
+const $=s=>document.querySelector(s);
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+let vue='accueil', colMobile='attente';
+// Affichage en icônes (mosaïque) ou en liste, mémorisé sur l'appareil.
+let enGrille=true; try{ enGrille=localStorage.getItem('paraphe.grille')!=='0'; }catch(e){}
+const ICONE_GRILLE='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>';
+const ICONE_LISTE='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 6h14M5 12h14M5 18h14"/></svg>';
+function majBtnVue(){
+  const b=document.getElementById('btnVue'); if(!b) return;
+  b.innerHTML=enGrille?ICONE_LISTE:ICONE_GRILLE;
+  b.setAttribute('aria-label',enGrille?'Afficher en liste':'Afficher en icônes');
+  b.title=enGrille?'Afficher en liste':'Afficher en icônes';
+}
+
+function el(t,c,txt){ const e=document.createElement(t); if(c) e.className=c; if(txt) e.textContent=txt; return e; }
+function extraireLiens(t){ return t?((t.match(/https?:\/\/[^\s<>"')\]]+/gi)||[]).map(u=>u.replace(/[.,;:!?]+$/,''))):[]; }
+function hote(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return (u||'').slice(0,40); } }
+// Deux pétitions du même site ne diffèrent parfois que par ?id=… ou #/… : on les garde, on n'ignore que les traceurs.
+const TRACEURS=/^(utm_.*|fbclid|gclid|mc_cid|mc_eid|igshid|si|_hs.*|mkt_tok)$/i;
+function cle(u){ try{ const x=new URL(u);
+  const q=[...x.searchParams].filter(([k])=>!TRACEURS.test(k)).sort().map(([k,v])=>k+'='+v).join('&');
+  const h=/^#[!/]/.test(x.hash)?x.hash:'';
+  return ((x.hostname.replace(/^www\./,'')+x.pathname).replace(/\/$/,'')+(q?'?'+q:'')+h).toLowerCase(); }catch(e){ return u; } }
+function titreAuto(u){
+  try{
+    const b=decodeURIComponent(new URL(u).pathname.split('/').filter(Boolean).pop()||'');
+    const p=b.replace(/[-_+]/g,' ').replace(/\.\w{2,4}$/,'').trim();
+    return (p.length>3 && !/^\d+$/.test(p)) ? p.charAt(0).toUpperCase()+p.slice(1) : hote(u);
+  }catch(e){ return u; }
+}
+function quand(iso){
+  const d=new Date(iso), j=Math.floor((Date.now()-d)/86400000);
+  if(j<=0) return "aujourd'hui"; if(j===1) return 'hier';
+  if(j<7) return 'il y a '+j+' jours';
+  return 'le '+d.toLocaleDateString('fr-FR',{day:'numeric',month:'long'});
+}
+function dateLongue(iso){ return new Date(iso).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}); }
+function toast(m){ const t=el('div','toast',m); document.body.appendChild(t); setTimeout(()=>t.remove(),2400); }
+
+/* ================= ajout ================= */
+async function chercherTitre(it){
+  it.chargement=true; rendre();
+  try{
+    const d=await (await fetch('/paraphe/api/meta?url='+encodeURIComponent(it.url))).json();
+    if(d.titre) it.titre=d.titre;
+    it.image=d.image||null; it.resume=d.resume||null;
+    it.organisme=organisme(it.url,d.site);
+    const base=it.titre+' '+it.url;
+    it.embleme=vignette(base); it.theme=theme(base);
+  }catch(e){}
+  it.chargement=false; ecrire(items); rendre();
+}
+// Fiches enregistrées avant les images : on va chercher l'image une fois (3 à la fois, en douceur).
+async function rattraperImages(){
+  if(!navigator.onLine) return;
+  // Aussi les fiches au titre passe-partout (« Signez la pétition » de Change.org) : on relit le vrai titre.
+  const generique=/^((signez|signer|sign)( la| the)? p[ée]tition|kampanyay[ıi] imzala|p[ée]tition)\s*!?$/i;
+  const manque=items.filter(i=>(!('image' in i) || !('resume' in i) || generique.test(i.titre||'') || /resist-tool\.vercel\.app\/signature\//.test(i.url||'')) && !i.chargement);
+  for(let k=0;k<manque.length;k+=3){
+    await Promise.all(manque.slice(k,k+3).map(async i=>{
+      try{ const d=await (await fetch('/paraphe/api/meta?url='+encodeURIComponent(i.url))).json(); i.image=d.image||null; i.resume=d.resume||null;
+        if(d.titre && generique.test(i.titre||'') && !generique.test(d.titre)) i.titre=d.titre;
+        if(/Resist/.test(i.organisme||'')||/resist-tool/.test(i.url)) { if(d.titre) i.titre=d.titre; if(d.site) i.organisme=d.site; } }
+      catch(e){ i.image=i.image||null; i.resume=null; }
+    }));
+    ecrire(items); rendre();
+  }
+}
+setTimeout(rattraperImages,1500);
+
+function ajouter(liens,{source='Autre',note=''}={}){
+  let neufs=0,doublons=0;
+  liens.forEach(u=>{
+    const ex=items.find(i=>cle(i.url)===cle(u));
+    if(ex){
+      ex.recus=(ex.recus||1)+1;
+      ex.sources=[...new Set([...(ex.sources||[ex.source]),source])];
+      if(note) ex.note=note; doublons++; return;
+    }
+    const t=titreAuto(u), base=t+' '+u;
+    const it={id:uid(),url:u,titre:t,organisme:organisme(u),theme:theme(base),embleme:vignette(base),
+      source,sources:[source],recus:1,note,favori:false,
+      ajoute:new Date().toISOString(),etat:'attente',signeeLe:null};
+    items.unshift(it); neufs++;
+    if(navigator.onLine) chercherTitre(it);
+  });
+  ecrire(items); rendre();
+  return {neufs,doublons};
+}
+
+/* ================= rendu ================= */
+function filtrer(liste){
+  const q=modeRecherche?$('#recherche').value.trim().toLowerCase():'';
+  return liste.filter(i=>{
+    if(!q) return true;
+    return (i.titre+' '+i.url+' '+(i.organisme||'')+' '+(i.sources||[]).join(' ')+' '+(i.theme||'')+' '+(i.note||'')).toLowerCase().includes(q);
+  });
+}
+const par=e=>filtrer(items.filter(i=>i.etat===e));
+
+function rendre(){
+  const a=par('attente'),
+        s=par('signee').sort((x,y)=>(y.signeeLe||'').localeCompare(x.signeeLe||'')),
+        z=par('archivee'),
+        f=filtrer(items.filter(i=>i.favori)),
+        d=filtrer(items.filter(i=>(i.recus||1)>1));
+
+  $('#nA').textContent=items.filter(i=>i.etat==='attente').length;
+  $('#nS').textContent=items.filter(i=>i.etat==='signee').length;
+  $('#nZ').textContent=items.filter(i=>i.etat==='archivee').length;
+  $('#nF').textContent=items.filter(i=>i.favori).length;
+  $('#nD').textContent=items.filter(i=>(i.recus||1)>1).length;
+
+  document.querySelectorAll('.nav[data-vue]').forEach(b=>b.setAttribute('aria-current',b.dataset.vue===vue));
+  document.querySelectorAll('.basse button').forEach(b=>b.setAttribute('aria-current',
+    b.dataset.vue===vue || (vue==='signees'&&b.dataset.vue==='accueil')));
+  $('#seg').style.display=(vue==='accueil'||vue==='signees')?'':'none';
+
+  const p=$('#panneau'); p.innerHTML='';
+
+  if(vue==='accueil'||vue==='signees'){
+    const g=el('div','colonnes');
+    const c1=colonne('À SIGNER',a.length,'Pétitions que vous n’avez pas encore signées',a,'attente');
+    const c2=colonne('HISTORIQUE',s.length,'Pétitions que vous avez déjà signées, avec la date',s,'signee',true);
+    g.append(c1,c2); p.appendChild(g);
+    const large=window.matchMedia('(min-width:900px)').matches;
+    // Grand écran : À signer à gauche, Historique à droite. Téléphone : le sélecteur choisit.
+    c1.style.display=(large||colMobile==='attente')?'':'none';
+    c2.style.display=(large||colMobile==='signee')?'':'none';
+    // Grand écran : Historique fermé par défaut, on l'ouvre en cliquant son titre ; l'appareil retient le dernier état.
+    if(large){
+      let ouvert=false; try{ ouvert=localStorage.getItem('paraphe.historique')==='1'; }catch(e){}
+      const ent=c2.querySelector('.entete');
+      ent.classList.add('repli'); ent.setAttribute('role','button'); ent.tabIndex=0;
+      ent.setAttribute('aria-expanded',ouvert);
+      ent.insertAdjacentHTML('beforeend','<em aria-hidden="true">'+(ouvert?'▾':'▸')+'</em>');
+      ent.title=ouvert?'Masquer l’historique':'Afficher l’historique';
+      if(!ouvert){ c2.querySelector('.sous').style.display='none'; c2.querySelector('.liste').style.display='none'; g.classList.add('histo-ferme'); }
+      const basculer=()=>{ try{ localStorage.setItem('paraphe.historique',ouvert?'0':'1'); }catch(e){} rendre(); };
+      ent.addEventListener('click',basculer);
+      ent.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); basculer(); } });
+    }
+  }
+  else if(vue==='archivee') p.appendChild(simple('Archivées','Reçues mais mises de côté — rien n’est perdu.',z,'archivee'));
+  else if(vue==='favoris')  p.appendChild(simple('Favoris','Les pétitions marquées d’une étoile.',f,'favoris'));
+  else if(vue==='doublons') p.appendChild(simple('Doublons','Reçues plusieurs fois — une seule fiche.',d,'doublons'));
+  else if(vue==='reglages') p.appendChild(reglages());
+}
+
+function colonne(titre,n,sous,liste,etat,gris){
+  const s=el('section','col');
+  s.innerHTML='<div class="entete '+(gris?'gris':'')+'"><h2>'+titre+'</h2><span>('+n+')</span></div>'
+    +'<p class="sous">'+sous+'</p><div class="liste"></div>';
+  garnir(s.querySelector('.liste'),liste,etat); return s;
+}
+function simple(titre,sous,liste,etat){
+  const s=el('section');
+  s.innerHTML='<h1 class="titre-vue">'+titre+'</h1><p class="sous">'+sous+'</p><div class="liste"></div>';
+  garnir(s.querySelector('.liste'),liste,etat); return s;
+}
+function garnir(cible,liste,etat){
+  if(!liste.length){
+    cible.appendChild(el('div','vide',
+      etat==='attente'?'Rien en attente. Partage un lien depuis Gmail ou Signal.'
+      :etat==='signee'?'Quand vous avez signé une pétition, touchez « Ouvrir et signer », puis « Oui, signée » en revenant : elle arrive ici, avec la date.'
+      :etat==='archivee'?'Rien de mis de côté.'
+      :etat==='favoris'?'Aucun favori pour l’instant.'
+      :'Aucun doublon — chaque pétition n’est arrivée qu’une fois.'));
+    return;
+  }
+  cible.classList.toggle('grille',enGrille);
+  liste.forEach(i=>cible.appendChild(fiche(i)));
+}
+
+// « Ouvrir et signer » : la pétition ouverte, puis au retour dans l'app on demande « Signée ? ».
+let ouvertLe=null, aConfirmer=null;
+function auRetour(){
+  if(document.visibilityState!=='visible' || !ouvertLe) return;
+  aConfirmer=ouvertLe; ouvertLe=null; rendre();
+}
+document.addEventListener('visibilitychange',auRetour);
+addEventListener('focus',auRetour);
+
+function fiche(i){
+  const signee=i.etat==='signee', archivee=i.etat==='archivee';
+  const c=COULEURS[i.theme]||COULEURS['Autre'];
+  const f=el('article','fiche'+(signee?' signee':'')+(archivee?' archivee':''));
+  f.innerHTML=
+   '<div class="haut">'
+   +'<div class="vignette" style="background:'+c[0]+'">'+(i.embleme||'📄')+(i.image?'<img alt="" loading="lazy" referrerpolicy="no-referrer">':'')+'</div>'
+   +'<div class="coeur"><div class="ligne1"><h3></h3>'
+   +(i.favori?'<span class="fav">★</span>':'')
+   +'<span class="chip" style="background:'+c[0]+';color:'+c[1]+'">'+(i.theme||'Autre')+'</span>'
+   +'<button class="kebab" data-act="menu" aria-label="Actions">⋮</button></div>'
+   +(i.resume?'<p class="resume"></p>':'')+'<div class="orga"></div><div class="info"><span class="q"></span>'
+   +((i.recus||1)>1?'<span class="dbl">reçue '+i.recus+'×</span>':'')
+   +(i.chargement?'<span class="chargement">titre…</span>':'')
+   +'</div></div></div>'
+   +(i.note?'<div class="note"></div>':'')
+   +(signee?'<div class="bas"><a class="b" target="_blank" rel="noopener" data-r="ouvrir">↗ Ouvrir</a></div>'
+     // Un seul bouton : il ouvre la pétition ; au retour dans l'app, on demande si c'est signé.
+     :aConfirmer===i.id?'<div class="bas confirmer"><span class="question">Signée ?</span>'
+       +'<button class="b vert" data-act="signer">✓ Oui, signée</button><button class="b" data-act="pasencore">Pas encore</button></div>'
+     :'<div class="bas"><a class="b vert" target="_blank" rel="noopener" data-r="ouvrir" data-act="ouvrir">↗ Ouvrir et signer</a></div>');
+  f.querySelector('h3').textContent=i.titre;
+  f.querySelector('.orga').textContent=i.organisme||hote(i.url);
+  if(i.resume) f.querySelector('.resume').textContent=i.resume;
+  f.querySelector('.q').textContent=signee?'Signée '+dateLongue(i.signeeLe):'Reçue '+quand(i.ajoute);
+  const lien=f.querySelector('[data-r=ouvrir]'); if(lien) lien.href=i.url;
+  // Image de la pétition par-dessus l'icône devinée ; si elle ne charge pas, l'icône reste.
+  // Liens de Resist : icône à la couleur de l'outil, orange pour Réunion, bleu pour Textes
+  // (les fiches déjà rangées avaient l'icône violette).
+  const outil=(/resist-tool\.vercel\.app\/(reunion|signature)\//.exec(i.url||'')||[])[1];
+  // Un texte : son image choisie au pilotage (l'adresse renvoie l'icône bleue s'il n'en a pas).
+  const slugTexte=(/resist-tool\.vercel\.app\/signature\/([^/?#]+)/.exec(i.url||'')||[])[1];
+  const vignette=slugTexte ? '/api/appeals/'+slugTexte+'/image' : outil ? String(i.image).replace(/icon-192\.png$/,'icon-reunion.png') : i.image;
+  const img=f.querySelector('.vignette img'); if(img){ img.onerror=()=>img.remove(); img.src=vignette; }
+  if(i.note) f.querySelector('.note').textContent=i.note;
+
+  f.addEventListener('click',e=>{
+    const b=e.target.closest('[data-act]'); if(!b) return;
+    if(b.dataset.act==='ouvrir'){ ouvertLe=i.id; return; } // le lien s'ouvre ; la question vient au retour
+    if(b.dataset.act==='signer'){
+      aConfirmer=null; i.etat='signee'; i.signeeLe=new Date().toISOString(); ecrire(items);
+      toast('Rangée dans l’historique.'); rendre();
+    }
+    if(b.dataset.act==='pasencore'){ aConfirmer=null; rendre(); }
+    if(b.dataset.act==='menu') menu(b,i);
+  });
+  return f;
+}
+
+/* ================= menu par fiche ================= */
+function fermerMenu(){ document.querySelectorAll('.menu,.voile').forEach(e=>e.remove()); }
+function menu(ancre,i){
+  fermerMenu();
+  const v=el('div','voile'); v.onclick=fermerMenu; document.body.appendChild(v);
+  const m=el('div','menu');
+  const actions=[
+    [i.favori?'☆  Retirer des favoris':'★  Mettre en favori',()=>{ i.favori=!i.favori; }],
+    ['✎  Note…',()=>{ const n=prompt('Note',i.note||''); if(n!==null) i.note=n.trim(); }],
+    ['✐  Renommer…',()=>{ const n=prompt('Titre',i.titre); if(n) i.titre=n.trim(); }],
+    ['⎘  Copier le lien',()=>{ if(navigator.clipboard) navigator.clipboard.writeText(i.url); toast('Lien copié'); }],
+    ...(i.etat==='attente'?[['✓  Marquer comme signée',()=>{ i.etat='signee'; i.signeeLe=new Date().toISOString(); }]]:[]),
+    i.etat==='attente'?['⌫  Archiver sans signer',()=>{ i.etat='archivee'; }]
+                      :['↩  Remettre à signer',()=>{ i.etat='attente'; i.signeeLe=null; }],
+    ['✕  Supprimer',()=>{ if(confirm('Supprimer « '+i.titre+' » ?')) items=items.filter(x=>x.id!==i.id); },true]
+  ];
+  actions.forEach(a=>{
+    const b=el('button',a[2]?'danger':'',a[0]);
+    b.onclick=()=>{ a[1](); ecrire(items); fermerMenu(); rendre(); };
+    m.appendChild(b);
+  });
+  document.body.appendChild(m);
+  const r=ancre.getBoundingClientRect();
+  m.style.top=Math.max(10,Math.min(r.bottom+6,innerHeight-m.offsetHeight-12))+'px';
+  m.style.left=Math.max(10,Math.min(r.right-m.offsetWidth,innerWidth-m.offsetWidth-10))+'px';
+}
+addEventListener('keydown',e=>{ if(e.key==='Escape') fermerMenu(); });
+
+/* ================= réglages ================= */
+function reglages(){
+  const s=el('section');
+  s.innerHTML='<h1 class="titre-vue">Réglages</h1><p class="sous">Sauvegarde et fonctionnement.</p>'
+  +'<div class="reglage"><h4>Recevoir les liens</h4><p>Le geste à connaître depuis Gmail, Signal, WhatsApp ou Telegram.</p>'
+  +'<button class="b" data-r="aide">Voir la marche à suivre</button></div>'
+  +'<div class="reglage"><h4>Mon carnet</h4><p>Vos pétitions sont synchronisées entre vos appareils. Pour les retrouver sur un ordinateur ou un autre téléphone, ouvrez votre lien personnel, ou tapez votre code. <b>Gardez ce code</b> : sans lui, impossible de retrouver la liste.</p>'
+  +'<p class="code-carnet">'+codeCarnet+'</p>'
+  +'<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="b" data-r="partager">Envoyer mon lien personnel</button>'
+  +'<button class="b" data-r="copier">Copier le code</button><button class="b" data-r="relier">J’ai déjà un code</button></div>'
+  +'<p class="etat-sync">'+(etatSync==='ok'?'✓ Synchronisé':etatSync==='erreur'?'Pas de synchronisation pour l’instant (réseau ?). Rien n’est perdu, ça repartira tout seul.':'')+'</p></div>'
+  +'<div class="reglage"><h4>Sauvegarde</h4><p>Une copie de secours dans un fichier, au cas où.</p>'
+  +'<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="b" data-r="export">Exporter (JSON)</button>'
+  +'<button class="b" data-r="import">Importer</button></div></div>'
+  +'<div class="reglage"><h4>À propos</h4><p>Sans compte : votre carnet est retrouvé par son code, chacun le sien. '
+  +'<b>'+items.length+'</b> pétition(s) enregistrée(s).</p></div>';
+  s.addEventListener('click',e=>{
+    const b=e.target.closest('[data-r]'); if(!b) return;
+    if(b.dataset.r==='aide') ouvrirAide();
+    if(b.dataset.r==='export') exporter();
+    if(b.dataset.r==='import') $('#fichier').click();
+    if(b.dataset.r==='copier'){ navigator.clipboard&&navigator.clipboard.writeText(codeCarnet); toast('Code copié'); }
+    if(b.dataset.r==='partager'){
+      const t='Mon carnet Paraphe : '+lienCarnet();
+      if(navigator.share) navigator.share({title:'Mon carnet Paraphe',text:t}).catch(()=>{});
+      else { navigator.clipboard&&navigator.clipboard.writeText(lienCarnet()); toast('Lien copié'); }
+    }
+    if(b.dataset.r==='relier'){
+      const c=prompt('Code de votre carnet (ex. k7m2-p9x4-ab3d) :');
+      if(c && relier(c)) rendre();
+    }
+  });
+  return s;
+}
+function exporter(){
+  const b=new Blob([JSON.stringify(items,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b); a.download='paraphe-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+}
+$('#fichier').onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{
+    let n=0;
+    JSON.parse(r.result).forEach(i=>{
+      if(i.url && !items.some(x=>cle(x.url)===cle(i.url))){
+        items.push(Object.assign({etat:i.signee?'signee':'attente',recus:1,favori:false,
+          sources:i.sources||[i.source||'Autre']},i)); n++; }
+    });
+    ecrire(items); rendre(); toast(n+' entrée'+(n>1?'s':'')+' importée'+(n>1?'s':''));
+  }catch(err){ toast('Fichier illisible.'); } };
+  r.readAsText(f);
+};
+
+/* ================= feuille d'ajout ================= */
+// La fenêtre d'ajout s'ouvre avec le lien déjà rempli : celui du champ du haut, sinon le presse-papiers.
+async function ouvrirFeuille(texte){
+  texte=typeof texte==='string'?texte:'';
+  $('#fLiens').value=texte; $('#fNote').value=''; $('#fSource').value='Autre'; $('#feuille').showModal();
+  if(!texte && navigator.clipboard&&navigator.clipboard.readText){
+    try{ const t=await navigator.clipboard.readText(); if(extraireLiens(t).length) $('#fLiens').value=t; }catch(e){}
+  }
+  ($('#fLiens').value?$('#fNote'):$('#fLiens')).focus();
+}
+const champHaut=$('#recherche');
+$('#btnAjouter').onclick=()=>{ const t=modeRecherche?'':champHaut.value.trim(); if(!modeRecherche) champHaut.value=''; ouvrirFeuille(t); };
+$('#fab').onclick=()=>ouvrirFeuille();
+$('#btnLoupe').onclick=()=>{
+  modeRecherche=!modeRecherche; champHaut.value='';
+  $('#btnLoupe').setAttribute('aria-pressed',modeRecherche);
+  champHaut.placeholder=modeRecherche?'Rechercher une pétition, une organisation…':'Collez ici le lien d’une pétition…';
+  champHaut.setAttribute('inputmode',modeRecherche?'search':'url');
+  champHaut.setAttribute('aria-label',modeRecherche?'Rechercher':'Lien d’une pétition');
+  rendre(); champHaut.focus();
+};
+// Coller un lien dans le champ ouvre directement la fenêtre, lien rempli, pour ajouter note et provenance.
+champHaut.addEventListener('paste',e=>{
+  if(modeRecherche) return;
+  const t=(e.clipboardData||window.clipboardData).getData('text');
+  if(extraireLiens(t).length){ e.preventDefault(); champHaut.value=''; ouvrirFeuille(t); }
+});
+champHaut.addEventListener('keydown',e=>{ if(e.key==='Enter' && !modeRecherche){ e.preventDefault(); $('#btnAjouter').click(); } });
+$('#fAnnuler').onclick=()=>$('#feuille').close();
+$('#fValider').onclick=()=>{
+  const liens=extraireLiens($('#fLiens').value);
+  if(!liens.length){ toast('Aucun lien trouvé dans ce texte.'); return; }
+  const r=ajouter(liens,{source:$('#fSource').value||'Autre',note:$('#fNote').value.trim()});
+  $('#feuille').close();
+  toast(r.neufs?(r.neufs>1?r.neufs+' liens ajoutés':'Lien ajouté'):'Déjà dans la liste — compteur mis à jour.');
+};
+
+/* ================= aide ================= */
+function ouvrirAide(){
+  $('#aideCorps').innerHTML=
+   '<p><b>1. Installer Paraphe</b> (une seule fois)<br>'
+  +'Ouvrir <code>'+location.origin+'/paraphe</code> et taper le mot de passe de Resist.<br>'
+  +'• Android : menu ⋮ → <i>Installer l’application</i>.<br>'
+  +'• iPhone : bouton Partager → <i>Sur l’écran d’accueil</i>.<br>'
+  +'Une ancienne appli « Paraphe » sur le téléphone ? La désinstaller : tout est dans Resist.</p>'
+  +'<p><b>2. Ranger une pétition</b><br>'
+  +'• Gmail, SMS, Signal (Android) : <i>Partager</i> → <b>Resist !</b> (icône R!). Dans Signal : appui long sur le message → <i>Infos</i> → <i>Partager</i>.<br>'
+  +'• WhatsApp, Telegram : appui long sur le message → <i>Copier</i>, puis ouvrir Paraphe et toucher le bandeau.<br>'
+  +'• iPhone : copier le lien, puis <i>Coller</i> en haut de Paraphe.</p>'
+  +'<p><b>3. Signer</b><br>'
+  +'Toucher <i>Ouvrir et signer</i>, signer sur le site, revenir et répondre <i>Oui, signée</i>.<br>'
+  +'Elle passe dans <i>Historique</i>, avec la date.</p>'
+  +'<p class="aide">Pas envie de la signer ? Menu ⋮ → <i>Archiver</i>.</p>';
+  $('#aide').showModal();
+}
+$('#btnAide2').onclick=ouvrirAide;
+$('#aideFermer').onclick=()=>$('#aide').close();
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{ if(e.target===d) d.close(); }));
+
+/* ================= réception ================= */
+function versASigner(){
+  vue='accueil'; colMobile='attente';
+  document.querySelectorAll('#seg button').forEach(x=>x.setAttribute('aria-selected',x.dataset.col==='attente'));
+}
+function recevoir(p){
+  if(p.get('coller')){ setTimeout(ouvrirFeuille,250); return; }
+  const brut=['url','add','text','title'].flatMap(k=>p.getAll(k)).filter(Boolean).join(' ');
+  const liens=extraireLiens(brut); if(!liens.length) return;
+  const src=p.get('src');
+  versASigner();
+  const r=ajouter(liens,{source:SOURCES.includes(src)?src:'Autre'});
+  scrollTo(0,0);
+  if(!r.neufs){ setTimeout(()=>toast('Déjà dans la liste — reçue '+r.doublons+'× de plus'),350); return; }
+  setTimeout(()=>toast(r.neufs>1?r.neufs+' pétitions ajoutées':'Pétition ajoutée'),350);
+}
+// Ouverture normale (partage alors que l'appli était fermée)
+recevoir(new URLSearchParams(location.search));
+history.replaceState({},'',location.pathname);
+// Partage alors que l'appli est déjà ouverte : Android réutilise la fenêtre (focus-existing), l'adresse arrive ici
+if('launchQueue' in window) launchQueue.setConsumer(lp=>{
+  if(!lp.targetURL) return;
+  const u=new URL(lp.targetURL);
+  if(u.search && u.search!==location.search) recevoir(u.searchParams);
+});
+
+/* Lien copié (WhatsApp : appui long sur un lien = « Copier le lien », pas de Partager) :
+   au retour dans l'appli, on propose de le ranger dans À signer */
+let dernierPropose='';
+async function verifierPressePapier(){
+  if(document.visibilityState!=='visible' || !navigator.clipboard || !navigator.clipboard.readText) return;
+  if(document.querySelector('dialog[open]')) return;
+  let t=''; try{ t=await navigator.clipboard.readText(); }catch(e){ return; }
+  const neufs=extraireLiens(t).filter(u=>!items.some(i=>cle(i.url)===cle(u)));
+  if(!neufs.length || neufs.join(' ')===dernierPropose) return;
+  dernierPropose=neufs.join(' ');
+  document.querySelectorAll('.ruban.copie').forEach(x=>x.remove());
+  const b=el('div','ruban copie');
+  b.innerHTML='<div class="ruban-t">Lien copié : '+neufs[0].replace(/^https?:\/\//,'').slice(0,48).replace(/</g,'&lt;')+(neufs.length>1?' (+'+(neufs.length-1)+')':'')+'</div><div class="ruban-p"></div>';
+  const z=b.querySelector('.ruban-p');
+  const ok=el('button','puce','➕ Ranger dans À signer');
+  ok.onclick=()=>{ b.remove(); versASigner(); const r=ajouter(neufs,{source:'Autre'}); scrollTo(0,0); toast(r.neufs>1?r.neufs+' pétitions ajoutées':r.neufs?'Pétition ajoutée':'Déjà dans la liste'); };
+  const non=el('button','puce','Non');
+  non.onclick=()=>b.remove();
+  z.append(ok,non);
+  document.body.appendChild(b); setTimeout(()=>b.remove(),15000);
+}
+document.addEventListener('visibilitychange',()=>setTimeout(verifierPressePapier,400));
+addEventListener('focus',()=>setTimeout(verifierPressePapier,400));
+setTimeout(verifierPressePapier,800);
+
+/* ================= navigation ================= */
+function aller(v){ vue=v; fermerMenu(); rendre(); scrollTo(0,0); }
+document.querySelectorAll('.nav[data-vue]').forEach(b=>b.onclick=()=>aller(b.dataset.vue));
+document.querySelectorAll('.basse button').forEach(b=>b.onclick=()=>aller(b.dataset.vue));
+document.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{
+  colMobile=b.dataset.col;
+  document.querySelectorAll('#seg button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  rendre();
+});
+$('#recherche').addEventListener('input',rendre);
+addEventListener('resize',()=>{ if(vue==='accueil'||vue==='signees') rendre(); });
+
+rendre();
+synchroniser();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
+</script>
+<script>
+majBtnVue();
+document.getElementById('btnVue').addEventListener('click',()=>{
+  enGrille=!enGrille; try{ localStorage.setItem('paraphe.grille',enGrille?'1':'0'); }catch(e){}
+  majBtnVue(); rendre();
+});
+</script>
+<script src="/i18n.js" defer></script>
+</body>
+</html>

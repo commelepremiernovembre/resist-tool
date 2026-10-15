@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Resist ! — look « Grunge » (cookie resist_theme=nirvana). Sans le cookie,
+   rien ne change. Ambiance Seattle début 90 : papier journal sali, bande de
+   chemise à carreaux, titres au feutre, machine à écrire, bleu piscine.
+   Aucun logo de groupe repris. Fond clair gardé exprès : les pages Réunion
+   posent leur grille directement sur le fond.
+   ========================================================================== */
+.nirvana {
+  --nv-ink: #1B1B1D;
+  --nv-paper: #DEDAD0;   /* papier journal grisé */
+  --nv-card: #F1EEE6;
+  --nv-blue: #1E6AA8;    /* bleu piscine */
+  --nv-blue-wash: #DCE8F1;
+  --nv-red: #9E2B25;     /* rouge flanelle passé */
+  --nv-green: #3F5A3A;   /* vert flanelle */
+}
+
+/* Papier sali : grain + taches, et la bande de flanelle en haut */
+.nirvana body {
+  color: var(--nv-ink);
+  background-color: var(--nv-paper);
+  background-image:
+    radial-gradient(circle at 18% 22%, rgba(80, 70, 50, .10) 0, transparent 38%),
+    radial-gradient(circle at 82% 68%, rgba(60, 60, 70, .09) 0, transparent 42%),
+    radial-gradient(rgba(27, 27, 29, .10) .8px, transparent 1px);
+  background-size: auto, auto, 5px 5px;
+}
+.nirvana body::before {
+  content: '';
+  display: block;
+  height: 14px;
+  background:
+    repeating-linear-gradient(90deg, rgba(27, 27, 29, .55) 0 6px, transparent 6px 22px, rgba(27, 27, 29, .35) 22px 26px, transparent 26px 44px),
+    repeating-linear-gradient(0deg, rgba(27, 27, 29, .45) 0 3px, transparent 3px 7px),
+    linear-gradient(90deg, var(--nv-red) 0 50%, var(--nv-green) 50% 100%);
+  background-size: 44px 100%, 100% 7px, 88px 100%;
+  border-bottom: 2px solid var(--nv-ink);
+}
+
+/* Titres : feutre noir, un peu de travers */
+.nirvana h1, .nirvana h2, .nirvana .font-display {
+  font-family: var(--font-nirvana), 'Marker Felt', cursive !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  letter-spacing: .01em;
+}
+.nirvana h1 { line-height: 1.15; transform: rotate(-.6deg); }
+.nirvana h2 { font-size: 1.25em; }
+
+/* Couleurs : le violet devient bleu piscine */
+.nirvana .text-violet { color: var(--nv-blue) !important; }
+.nirvana .bg-violet { background-color: var(--nv-blue) !important; }
+.nirvana .bg-violet-wash, .nirvana .bg-violet-wash\/40 { background-color: var(--nv-blue-wash) !important; }
+.nirvana .border-violet, .nirvana .border-violet\/50, .nirvana .border-violet\/40 { border-color: var(--nv-ink) !important; }
+.nirvana .accent-violet { accent-color: var(--nv-blue); }
+.nirvana .text-moss { color: var(--nv-green) !important; }
+.nirvana hr.border-violet { border-color: var(--nv-ink) !important; }
+
+/* Logo : au feutre, trait rouge gribouillé dessous */
+.nirvana a.group > span:first-child { color: var(--nv-ink) !important; font-family: var(--font-nirvana), cursive !important; font-style: normal !important; font-weight: 400 !important; }
+.nirvana a.group > span.stroke-in { background: var(--nv-red) !important; height: 4px !important; border-radius: 2px 6px 3px 8px !important; transform: rotate(-1.5deg); }
+
+/* Cartes : papier photocopié, bord noir épais, ombre baveuse */
+.nirvana .card, .nirvana article {
+  background: var(--nv-card) !important;
+  border: 2px solid var(--nv-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: 4px 5px 0 rgba(27, 27, 29, .85), 6px 8px 10px rgba(27, 27, 29, .18) !important;
+}
+.nirvana main > div.card { transform: rotate(-.25deg); }
+.nirvana article:nth-child(odd) { transform: rotate(.6deg); }
+.nirvana article:nth-child(even) { transform: rotate(-.5deg); }
+.nirvana article > div:first-child { border-bottom: 2px solid var(--nv-ink); filter: grayscale(.6) contrast(1.15) sepia(.15); }
+.nirvana .rounded-2xl, .nirvana .rounded-3xl, .nirvana .rounded-lg { border-radius: 3px !important; }
+
+/* Boutons : machine à écrire, contour tracé à la main */
+.nirvana .btn-primary, .nirvana .btn-dark, .nirvana .btn-ghost {
+  font-family: var(--font-nirvana-type), 'Courier New', monospace !important;
+  font-weight: 400 !important;
+  border-radius: 14px 4px 12px 3px / 4px 12px 3px 14px !important;
+  border: 2px solid var(--nv-ink) !important;
+  box-shadow: 2px 3px 0 var(--nv-ink) !important;
+  transition: transform .12s, box-shadow .12s;
+}
+.nirvana .btn-primary:active, .nirvana .btn-dark:active, .nirvana .btn-ghost:active { transform: translate(2px, 3px); box-shadow: none !important; }
+.nirvana .btn-primary { background: var(--nv-blue) !important; color: #fff !important; }
+.nirvana .btn-primary:hover { background: #17578C !important; }
+.nirvana .btn-dark { background: var(--nv-ink) !important; color: #F1EEE6 !important; }
+.nirvana .btn-dark:hover { background: var(--nv-red) !important; }
+.nirvana .btn-ghost { background: var(--nv-card) !important; color: var(--nv-ink) !important; }
+.nirvana .btn-ghost:hover { background: #fff !important; }
+.nirvana a.rounded-xl, .nirvana button.rounded-xl, .nirvana .rounded-full { border-radius: 10px 3px 9px 3px / 3px 9px 3px 10px !important; }
+
+/* Champs : fond papier, bord noir */
+.nirvana .field, .nirvana input[type=text], .nirvana input:not([type]), .nirvana select, .nirvana textarea {
+  border-radius: 2px !important;
+  border: 2px solid rgba(27, 27, 29, .7) !important;
+  background: #FBFAF6;
+}
+.nirvana .field:focus, .nirvana input:focus, .nirvana select:focus, .nirvana textarea:focus {
+  border-color: var(--nv-blue) !important;
+  box-shadow: 0 0 0 2px rgba(30, 106, 168, .25) !important;
+}
+
+/* Réunion : grille en bleu piscine */
+.nirvana [data-c] { filter: hue-rotate(-40deg) saturate(.85); }
+.nirvana .range-thumb::-webkit-slider-thumb { background: var(--nv-blue); border-color: var(--nv-ink); }
+.nirvana .range-thumb::-moz-range-thumb { background: var(--nv-blue); border-color: var(--nv-ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .nirvana h1, .nirvana article, .nirvana main > div.card { transform: none !important; }
+}
