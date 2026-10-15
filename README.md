@@ -271,3 +271,4 @@ Faire passer `PARCOURS-TEST.md` à quatre ou cinq personnes : créer → suggér
 - **15/10/2026** — Paraphe : « mes pétitions » en rose, serré sous le titre.
 - **15/10/2026** — Paraphe : colonne de gauche plus étroite (204 px) et à la hauteur de son contenu (l'encadré d'aide suit le menu au lieu d'être en bas de l'écran).
 - **15/10/2026** — Mon espace : phrase d'intro sur deux lignes (« Vos textes… appareils. » / « Sans compte : un code personnel suffit. »).
+- **16/10/2026** — Code versé dans un dépôt GitHub **privé** `commelepremiernovembre/resist-tool` (branche main). Exclus par `.gitignore` : `.env*`, sauvegardes `*.bak_*`, `sauvegarde_*.txt`, `carnet_espace_*.json`. Le dépôt n'est **pas** relié à Vercel : la mise en ligne reste `vercel --prod`.
