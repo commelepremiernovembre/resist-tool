@@ -35,12 +35,9 @@ export default function NouveauTexte() {
     const admin = `${pub}/pilote?k=${done.admin_key}`
     return (
       <Shell>
-        <h1 className="text-2xl font-semibold tracking-tight">Votre texte est en ligne.</h1>
-        <p className="mt-2 text-[15px] text-black/60">
-          Les deux liens restent disponibles dans Mon espace. Le second donne le contrôle du texte, ne le diffusez pas. Dans 180 jours, le texte, les signatures et les logos seront effacés.
-        </p>
-        <LinkBox label="À faire circuler dans les organisations" href={pub} />
-        <LinkBox label="Votre lien de pilotage (disponible dans Mon espace)" href={admin} tone="dark" />
+        <h1 className="text-2xl font-semibold tracking-tight">Le texte est en ligne</h1>
+        <LinkBox label="Lien vers la page publique" href={pub} />
+        <LinkBox label="Lien de pilotage (à retrouver dans Mon Espace)" href={admin} tone="dark" />
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <a className="btn-primary" href={`${pub}#signer`}>Signer ce texte maintenant</a>
           <span className="text-[13px] text-black/50">Votre organisation peut être la première signataire.</span>
