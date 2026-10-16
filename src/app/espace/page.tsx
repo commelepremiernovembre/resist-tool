@@ -120,7 +120,7 @@ export default function MonEspace() {
       ))}
 
       <div className="mt-6 rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:px-10">
-        <TitreOutil outil="paraphe" titre="Pétitions" />
+        <TitreOutil outil="paraphe" titre="Espace Pétition" />
         <p className="mt-2 text-[14px] text-black/60">
           {petitions == null ? 'Elles sont rangées dans Paraphe.' : `${petitions} pétition${petitions > 1 ? 's' : ''} dans Paraphe.`}{' '}
           <a href="/paraphe" className="underline">Ouvrir Paraphe</a>
@@ -161,7 +161,6 @@ const OUTILS = {
 function TitreOutil({ outil, titre }: { outil: keyof typeof OUTILS; titre: string }) {
   return (
     <h2 className="mt-6 flex items-center gap-2 text-[15px] font-semibold" style={{ color: OUTILS[outil].couleur }}>
-      <img src={OUTILS[outil].icone} alt="" className="h-5 w-5 rounded-md" />
       {titre}
     </h2>
   )
