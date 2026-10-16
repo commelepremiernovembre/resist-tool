@@ -229,7 +229,7 @@ function SuggestModal({ slug, quote, titre, onClose, onDone }: { slug: string; q
                   onChange={(e) => setF({ ...f, proposal: e.target.value })} placeholder="Remplacer par…" />}
           </div>
           <div>
-            <label className="label" htmlFor="s-why">Pourquoi <span className="text-black/35">(facultatif)</span></label>
+            <label className="label" htmlFor="s-why">Pourquoi <span className="text-black/35">(optionnel)</span></label>
             <input id="s-why" className="field" value={f.reason} onChange={(e) => setF({ ...f, reason: e.target.value })} />
           </div>
           {err && <p className="rounded-xl bg-rose px-4 py-3 text-[14px]">{err}</p>}
@@ -416,11 +416,11 @@ function SignBox({ slug, version, onDone }: { slug: string; version: number; onD
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="label" htmlFor="role">Fonction</label>
-            <input id="role" name="role" className="field" placeholder="facultatif" defaultValue={own?.role ?? ''} />
+            <input id="role" name="role" className="field" placeholder="optionnel" defaultValue={own?.role ?? ''} />
           </div>
           <div>
             <label className="label" htmlFor="city">Ville</label>
-            <input id="city" name="city" className="field" placeholder="facultatif" defaultValue={own?.city ?? ''} />
+            <input id="city" name="city" className="field" placeholder="optionnel" defaultValue={own?.city ?? ''} />
           </div>
         </div>
         <div>
@@ -429,7 +429,7 @@ function SignBox({ slug, version, onDone }: { slug: string; version: number; onD
         </div>
         <div>
           <label className="label" htmlFor="note">Un mot à ajouter</label>
-          <input id="note" name="note" className="field" placeholder="facultatif" defaultValue={own?.note ?? ''} />
+          <input id="note" name="note" className="field" placeholder="optionnel" defaultValue={own?.note ?? ''} />
         </div>
         <label className="btn-dark w-full cursor-pointer text-[14px]">
           {logo ? logo.name : own?.logo_url ? 'Remplacer notre logo' : 'Charger votre logo en JPEG ou PNG'}
@@ -438,7 +438,7 @@ function SignBox({ slug, version, onDone }: { slug: string; version: number; onD
         </label>
         {logoMsg && <p className="rounded-xl bg-wall px-3 py-2 text-[13px]">{logoMsg}</p>}
         <p className="text-[12px] text-black/45">
-          Facultatif. PNG, JPEG, WebP ou SVG, 2 Mo maximum (un logo plus lourd est réduit automatiquement).
+          Optionnel. PNG, JPEG, WebP ou SVG, 2 Mo maximum (un logo plus lourd est réduit automatiquement).
           Il apparaîtra avec votre signature sur le visuel final : inutile de l&apos;envoyer en plus par mail.
         </p>
       </div>

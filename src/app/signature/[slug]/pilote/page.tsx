@@ -523,7 +523,7 @@ function Porteur({ valeur, onSave }: { valeur: string; onSave: (v: string) => Pr
   }
   return (
     <label className="mt-3 flex flex-wrap items-center gap-2 text-[14px]">
-      <span className="text-black/55">Porté par</span>
+      <span className="text-black/55">Nom de l&apos;organisation</span>
       <input className="min-w-[14rem] flex-1 rounded-lg border border-black/15 bg-white px-3 py-1.5" value={v} placeholder="Nom de l’organisation ou du collectif"
         onChange={(e) => { setV(e.target.value); setOk(false) }} onBlur={enregistrer}
         onKeyDown={(e) => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }} />

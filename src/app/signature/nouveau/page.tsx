@@ -61,12 +61,19 @@ export default function NouveauTexte() {
           <label className="label" htmlFor="title">Titre de l&apos;appel</label>
           <input id="title" className="field" value={form.title} onChange={set('title')} placeholder="Tribune contre…" />
         </div>
-        <div>
-          <label className="label" htmlFor="porteur">Porté par <span className="text-black/35">(facultatif)</span></label>
-          <input id="porteur" className="field" value={form.porteur} onChange={set('porteur')} placeholder="Nom de l’organisation ou du collectif" />
+        {/* 16/10/2026 : organisation et contact regroupés (Laurene les confondait). */}
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label className="label" htmlFor="porteur">Nom de l&apos;organisation</label>
+            <input id="porteur" className="field" value={form.porteur} onChange={set('porteur')} placeholder="Organisation ou collectif" />
+          </div>
+          <div>
+            <label className="label" htmlFor="contact">Contact <span className="text-black/35">(optionnel)</span></label>
+            <input id="contact" className="field" value={form.contact} onChange={set('contact')} placeholder="email, téléphone, Signal…" />
+          </div>
         </div>
         <div>
-          <label className="label" htmlFor="intro">Une phrase de contexte <span className="text-black/35">(facultatif)</span></label>
+          <label className="label" htmlFor="intro">Une phrase de contexte <span className="text-black/35">(optionnel)</span></label>
           <input id="intro" className="field" value={form.intro} onChange={set('intro')} placeholder="Texte proposé par… à signer avant le…" />
         </div>
         <div>
@@ -79,12 +86,8 @@ export default function NouveauTexte() {
         </div>
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
-            <label className="label" htmlFor="deadline">Date limite de signature</label>
+            <label className="label" htmlFor="deadline">Date limite de signature <span className="text-black/35">(optionnel)</span></label>
             <input id="deadline" type="date" className="field" value={form.deadline} onChange={set('deadline')} />
-          </div>
-          <div>
-            <label className="label" htmlFor="contact">Contact affiché</label>
-            <input id="contact" className="field" value={form.contact} onChange={set('contact')} placeholder="mail ou compte Signal" />
           </div>
         </div>
 
