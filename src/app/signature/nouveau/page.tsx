@@ -37,13 +37,16 @@ export default function NouveauTexte() {
       <Shell>
         <h1 className="text-2xl font-semibold tracking-tight">Votre texte est en ligne.</h1>
         <p className="mt-2 text-[15px] text-black/60">
-          Gardez ces deux liens : ils ne seront plus affichés. Le second donne le contrôle du texte, ne le diffusez pas. Dans 180 jours, le texte, les signatures et les logos seront effacés.
+          Les deux liens restent disponibles dans Mon espace. Le second donne le contrôle du texte, ne le diffusez pas. Dans 180 jours, le texte, les signatures et les logos seront effacés.
         </p>
         <LinkBox label="À faire circuler dans les organisations" href={pub} />
-        <LinkBox label="Votre lien de pilotage (à garder)" href={admin} tone="dark" />
+        <LinkBox label="Votre lien de pilotage (disponible dans Mon espace)" href={admin} tone="dark" />
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <a className="btn-primary" href={`${pub}#signer`}>Signer ce texte maintenant</a>
           <span className="text-[13px] text-black/50">Votre organisation peut être la première signataire.</span>
+        </div>
+        <div className="mt-4">
+          <a className="btn border border-black/20 bg-white px-5 text-[15px]" href="/espace">Mon espace</a>
         </div>
       </Shell>
     )
