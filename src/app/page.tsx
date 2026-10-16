@@ -24,7 +24,7 @@ const tools = [
     text: <>J’ajoute les pétitions reçues dans mes messageries et je signe quand j’ai un moment de libre <strong className="font-semibold text-ink">sans que ce soit relou.</strong></>,
     cta: 'Découvrir l’appli',
     href: '/paraphe',
-    couleur: '#B0279B',
+    couleur: '#DB1A74',
     illus: <IllusSignature />,
   },
 ]

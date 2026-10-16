@@ -8,7 +8,7 @@ export function IllusSignature() {
       <rect width="320" height="140" fill="#FDE8F2" />
       <path d="M60 96c22-46 34-62 44-60 9 2 3 26-8 44-11 18-22 26-27 22-6-5 6-22 34-30 30-8 66-6 96 4"
         fill="none" stroke="#DB1A74" strokeWidth="4.5" strokeLinecap="round" />
-      <rect x="228" y="86" width="58" height="12" rx="6" transform="rotate(-24 228 86)" fill="#8E1450" />
+      <rect x="228" y="86" width="58" height="12" rx="6" transform="rotate(-24 228 86)" fill="#DB1A74" />
     </svg>
   )
 }
