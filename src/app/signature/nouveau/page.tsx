@@ -50,44 +50,37 @@ export default function NouveauTexte() {
   }
 
   return (
-    <Shell titre="Un texte à signer ?">
-      <p className="text-center text-[15px] text-black/60">
-        Collez le texte, partagez le lien. Les organisations répondent, proposent des modifs et déposent leur logo au
-        même endroit.
-      </p>
-
-      <div className="mt-8 space-y-5">
+    <Shell titre="Un texte à signer ?" chapeau="Collez le texte, partagez le lien. Les organisations répondent, proposent des modifs et déposent leur logo au même endroit.">
+      <div className="space-y-5">
         <div>
           <label className="label" htmlFor="title">Titre de l&apos;appel</label>
           <input id="title" className="field" value={form.title} onChange={set('title')} placeholder="Tribune contre…" />
         </div>
-        {/* 16/10/2026 : organisation et contact regroupés (Laurene les confondait). */}
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div>
-            <label className="label" htmlFor="porteur">Nom de l&apos;organisation</label>
-            <input id="porteur" className="field" value={form.porteur} onChange={set('porteur')} placeholder="Organisation ou collectif" />
-          </div>
-          <div>
-            <label className="label" htmlFor="contact">Contact <span className="text-black/35">(optionnel)</span></label>
-            <input id="contact" className="field" value={form.contact} onChange={set('contact')} placeholder="email, téléphone, Signal…" />
-          </div>
-        </div>
         <div>
           <label className="label" htmlFor="intro">Une phrase de contexte <span className="text-black/35">(optionnel)</span></label>
-          <input id="intro" className="field" value={form.intro} onChange={set('intro')} placeholder="Texte proposé par… à signer avant le…" />
+          <input id="intro" className="field" value={form.intro} onChange={set('intro')} placeholder="Ajouter un sous-titre" />
         </div>
         <div>
           <label className="label" htmlFor="body">Le texte</label>
           <AutoTextarea id="body" className="field min-h-[280px] leading-relaxed" value={form.body} onChange={set('body')}
-            placeholder="Un paragraphe par bloc. Laissez une ligne vide entre deux paragraphes." />
-          <p className="mt-1.5 text-[12.5px] text-black/45">
-            Chaque paragraphe devient annotable : les organisations pourront viser un passage précis.
-          </p>
+            placeholder="Chèr.e.s camarades…" />
         </div>
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label className="label" htmlFor="deadline">Date limite de signature <span className="text-black/35">(optionnel)</span></label>
             <input id="deadline" type="date" className="field" value={form.deadline} onChange={set('deadline')} />
+          </div>
+        </div>
+
+        {/* 16/10/2026 : organisation et contact regroupés (Laurene les confondait) ; placés en fin de formulaire. */}
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label className="label" htmlFor="porteur">Nom de l&apos;organisation</label>
+            <input id="porteur" className="field" value={form.porteur} onChange={set('porteur')} placeholder="Nom ou pseudo" />
+          </div>
+          <div>
+            <label className="label" htmlFor="contact">Contact <span className="text-black/35">(optionnel)</span></label>
+            <input id="contact" className="field" value={form.contact} onChange={set('contact')} placeholder="Email, téléphone, Signal…" />
           </div>
         </div>
 
@@ -119,13 +112,14 @@ function LinkBox({ label, href, tone = 'light' }: { label: string; href: string;
 }
 
 // Même allure que la création d'un sondage : grand titre à la couleur de l'outil, panneau bleu pâle sur fond blanc.
-function Shell({ titre, children }: { titre?: string; children: React.ReactNode }) {
+function Shell({ titre, chapeau, children }: { titre?: string; chapeau?: string; children: React.ReactNode }) {
   return (
     <main className="mx-auto max-w-3xl px-5 pb-24 pt-8">
       <Wordmark size="sm" />
       {titre && (
         <h1 className="mt-10 text-balance text-center font-display text-4xl font-extrabold tracking-tight text-violet sm:text-6xl">{titre}</h1>
       )}
+      {chapeau && <p className="mx-auto mt-6 max-w-xl text-center text-[15px] text-black/50">{chapeau}</p>}
       <div className={`${titre ? 'mt-8 bg-violet-wash' : 'card mt-6'} rounded-3xl p-6 sm:p-9`}>{children}</div>
     </main>
   )
