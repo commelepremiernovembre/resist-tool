@@ -86,7 +86,9 @@ export default function TexteASigner({ params }: { params: { slug: string } }) {
           </p>
         )}
         {/* Icône du texte retirée le 16/10 à la demande de Ste. */}
-        <h1 className="text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{appeal.title}</h1>
+        {pilote
+          ? <TitrePilote key={appeal.title} slug={params.slug} k={pilote} titre={appeal.title} onSaved={load} />
+          : <h1 className="text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{appeal.title}</h1>}
         {appeal.porteur && <p className="mt-2 text-[15px] font-medium text-black/70">Porté par {appeal.porteur}</p>}
         {appeal.intro && <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-black/60">{appeal.intro}</p>}
         <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-[13.5px] text-black/55">
@@ -502,4 +504,46 @@ async function reduireLogo(f: File): Promise<File> {
       if (blob && blob.size <= LOGO_MAX) return new File([blob], f.name.replace(/\.\w+$/, type === 'image/png' ? '.png' : '.jpg'), { type })
     }
   throw new Error('trop lourd')
+}
+
+// Petit crayon à côté du titre, seulement pour qui pilote le texte (16/10/2026, demandé par Ste).
+function TitrePilote({ slug, k, titre, onSaved }: { slug: string; k: string; titre: string; onSaved: () => void }) {
+  const [edition, setEdition] = useState(false)
+  const [v, setV] = useState(titre)
+  const [erreur, setErreur] = useState('')
+  async function enregistrer() {
+    const t = v.trim()
+    if (!t || t === titre) { setV(titre); setEdition(false); return }
+    const res = await fetch(`/api/appeals/${slug}`, {
+      method: 'PATCH',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ k, title: t }),
+    })
+    if (!res.ok) { setErreur((await res.json().catch(() => ({}))).error ?? 'Enregistrement impossible.'); return }
+    setEdition(false)
+    onSaved()
+  }
+  const style = 'text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl'
+  if (!edition) {
+    return (
+      <h1 className={style}>
+        {titre}
+        <button type="button" onClick={() => setEdition(true)} aria-label="Modifier le titre" title="Modifier le titre"
+          className="ml-3 inline-flex h-8 w-8 translate-y-[-4px] items-center justify-center rounded-lg align-middle text-black/35 hover:bg-black/5 hover:text-violet">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+          </svg>
+        </button>
+      </h1>
+    )
+  }
+  return (
+    <div>
+      <input autoFocus aria-label="Titre du texte" value={v} onChange={(e) => { setV(e.target.value); setErreur('') }}
+        onBlur={enregistrer}
+        onKeyDown={(e) => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur(); if (e.key === 'Escape') { setV(titre); setEdition(false) } }}
+        className={`-mx-2 w-full rounded-lg border border-violet bg-transparent px-2 py-1 focus:outline-none ${style}`} />
+      <p className="mt-1 text-[12.5px] text-black/45">{erreur || 'Entrée pour enregistrer, Échap pour annuler.'}</p>
+    </div>
+  )
 }
