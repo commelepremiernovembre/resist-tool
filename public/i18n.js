@@ -5,7 +5,8 @@
    Aa lecture facilitée pour la dyslexie (cookie resist_dys), A+ taille du texte (cookie resist_taille), EN / FR langue
    bascule ; le choix est gardé dans le cookie resist_lang (un an). Chargé par toutes les pages, Paraphe compris. */
 (function () {
-  var lang = (document.cookie.match(/(?:^|;\s*)resist_lang=(en|fr)/) || [])[1] || 'fr';
+  // 16/10/2026 : bouton EN retiré à la demande de Ste ; tout le monde en français (même avec un ancien cookie resist_lang=en).
+  var lang = 'fr';
 
   // ---------- petits boutons en bas à droite : écouter, taille du texte, langue ----------
   var EN = lang === 'en';
@@ -112,11 +113,6 @@
       appliquerTaille();
       b.textContent = taille === TAILLES.length - 1 ? 'A–' : 'A+';
     }).textContent = taille === TAILLES.length - 1 ? 'A–' : 'A+';
-    var l = petit(EN ? 'FR' : 'EN', EN ? 'Revenir en français' : 'Switch to English', function () {
-      document.cookie = 'resist_lang=' + (EN ? 'fr' : 'en') + '; path=/; max-age=31536000; samesite=lax';
-      location.reload();
-    });
-    l.id = 'resist-lang';
     document.body.appendChild(g);
   }
   if (document.body) bouton(); else document.addEventListener('DOMContentLoaded', bouton);
