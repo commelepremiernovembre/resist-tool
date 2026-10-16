@@ -60,6 +60,13 @@ export default function Pilote({ params }: { params: { slug: string } }) {
 
   // « OK » sur une modif proposée : le passage cité est remplacé dans le texte, une nouvelle version est publiée
   // tout de suite, et la modif passe « intégrée ». Seulement si le passage cité se trouve tel quel dans le texte en ligne.
+  // « OK » sur un titre proposé : le titre change tout de suite, la proposition passe « intégrée ».
+  async function changerTitre(s: Suggestion) {
+    setApplique(s.id)
+    if (await patch({ title: s.proposal })) await setStatus(s.id, 'accepted')
+    setApplique('')
+  }
+
   async function appliquer(s: Suggestion, fond: boolean) {
     if (!data || !s.quote || !data.appeal.body.includes(s.quote)) return
     setApplique(s.id)
@@ -169,7 +176,7 @@ export default function Pilote({ params }: { params: { slug: string } }) {
           {suggestions.map((s) => (
             <li key={s.id} className="rounded-xl border border-black/10 p-4">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-[14.5px] font-medium">{s.author}</p>
+                <p className="text-[14.5px] font-medium">{s.author}{s.cible === 'titre' && <span className="ml-2 rounded-full bg-wall px-2 py-0.5 text-[12px] font-normal text-black/55">titre</span>}</p>
                 <span className="text-[12.5px] text-black/45">
                   sur la v{s.version} · {new Date(s.created_at).toLocaleDateString('fr-FR')}
                 </span>
@@ -177,7 +184,14 @@ export default function Pilote({ params }: { params: { slug: string } }) {
               {s.quote && <p className="mt-1.5 whitespace-pre-wrap text-[13.5px] italic text-black/45">« <Retraits avant={s.quote} apres={s.proposal} /> »</p>}
               <p className="mt-1.5 whitespace-pre-wrap text-[14.5px] leading-relaxed"><Ajouts avant={s.quote} apres={s.proposal} /></p>
               {s.reason && <p className="mt-1 whitespace-pre-wrap text-[13.5px] text-black/55">{s.reason}</p>}
-              {s.status === 'open' && s.version === appeal.version && (
+              {s.status === 'open' && s.cible === 'titre' && (
+                <div className="mt-3 flex flex-wrap items-center gap-2 text-[13.5px]">
+                  <button className="btn-primary text-[13.5px]" disabled={!!applique} onClick={() => changerTitre(s)}>
+                    {applique === s.id ? 'Changement…' : 'OK, prendre ce titre'}
+                  </button>
+                </div>
+              )}
+              {s.status === 'open' && s.cible !== 'titre' && s.version === appeal.version && (
                 s.quote && appeal.body.includes(s.quote) ? (
                   <div className="mt-3 flex flex-wrap items-center gap-2 text-[13.5px]">
                     <span className="text-black/55">{applique === s.id ? 'Intégration…' : 'OK, intégrer :'}</span>

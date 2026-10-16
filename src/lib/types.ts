@@ -57,6 +57,7 @@ export type Suggestion = {
   status: 'open' | 'accepted' | 'rejected'
   version: number
   created_at: string
+  cible?: 'titre' | null // 'titre' : proposition d'un autre titre (16/10/2026)
 }
 
 export type Signatory = {

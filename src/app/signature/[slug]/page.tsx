@@ -26,7 +26,7 @@ function compterVue(slug: string) {
 export default function TexteASigner({ params }: { params: { slug: string } }) {
   const [data, setData] = useState<Payload | null>(null)
   const [error, setError] = useState('')
-  const [target, setTarget] = useState<{ index: number; quote: string } | null>(null)
+  const [target, setTarget] = useState<{ index: number; quote: string; titre?: boolean } | null>(null)
   const [pilote, setPilote] = useState<string | null>(null) // clé de pilotage si ce texte est dans « Textes que je pilote »
 
   const load = async () => {
@@ -61,7 +61,8 @@ export default function TexteASigner({ params }: { params: { slug: string } }) {
   const current = signed.filter((s) => s.version === appeal.version)
   const stale = signed.length - current.length
   // Seules les modifs en discussion s'affichent : les intégrées ou refusées coupaient la lecture du texte (elles restent dans le pilotage).
-  const open = suggestions.filter((s) => s.status === 'open')
+  const open = suggestions.filter((s) => s.status === 'open' && s.cible !== 'titre')
+  const titresProposes = suggestions.filter((s) => s.status === 'open' && s.cible === 'titre')
 
   const forParagraph = (i: number) =>
     open.filter((s) => s.quote && paragraphs[i]?.includes(s.quote.slice(0, 40)))
@@ -88,7 +89,8 @@ export default function TexteASigner({ params }: { params: { slug: string } }) {
         {/* Icône du texte retirée le 16/10 à la demande de Ste. */}
         {pilote
           ? <TitrePilote key={appeal.title} slug={params.slug} k={pilote} titre={appeal.title} onSaved={load} />
-          : <h1 className="text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{appeal.title}</h1>}
+          : <TitrePublic titre={appeal.title} ouvert={!appeal.closed} onProposer={() => setTarget({ index: -1, quote: appeal.title, titre: true })} />}
+        {titresProposes.map((s) => <SuggestionNote key={s.id} s={s} />)}
         {appeal.porteur && <p className="mt-2 text-[15px] font-medium text-black/70">Porté par {appeal.porteur}</p>}
         {appeal.intro && <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-black/60">{appeal.intro}</p>}
         <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-[13.5px] text-black/55">
@@ -154,6 +156,7 @@ export default function TexteASigner({ params }: { params: { slug: string } }) {
         <SuggestModal
           slug={params.slug}
           quote={target.quote}
+          titre={target.titre}
           onClose={() => setTarget(null)}
           onDone={() => { setTarget(null); load() }}
         />
@@ -178,8 +181,8 @@ function SuggestionNote({ s }: { s: Suggestion }) {
   )
 }
 
-function SuggestModal({ slug, quote, onClose, onDone }: { slug: string; quote: string; onClose: () => void; onDone: () => void }) {
-  const [f, setF] = useState({ author: '', quote, proposal: '', reason: '' })
+function SuggestModal({ slug, quote, titre, onClose, onDone }: { slug: string; quote: string; titre?: boolean; onClose: () => void; onDone: () => void }) {
+  const [f, setF] = useState({ author: '', quote, proposal: '', reason: '', ...(titre ? { cible: 'titre' } : {}) })
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
   const ref = useRef<HTMLInputElement>(null)
@@ -198,23 +201,32 @@ function SuggestModal({ slug, quote, onClose, onDone }: { slug: string; quote: s
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/40 p-4 sm:items-center" onClick={onClose}>
       <div className="card max-h-[92vh] w-full max-w-2xl overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
-        <h2 className="text-lg font-semibold">Suggérer une modification</h2>
-        <p className="mt-1 text-[13.5px] text-black/55">Le passage visé est repris ci-dessous, vous pouvez l&apos;ajuster.</p>
+        <h2 className="text-lg font-semibold">{titre ? 'Proposer un autre titre' : 'Suggérer une modification'}</h2>
+        <p className="mt-1 text-[13.5px] text-black/55">{titre ? 'Le titre change quand la personne qui pilote le texte accepte votre proposition.' : <>Le passage visé est repris ci-dessous, vous pouvez l&apos;ajuster.</>}</p>
         <div className="mt-4 space-y-4">
           <div>
             <label className="label" htmlFor="s-author">Vous êtes</label>
             <input id="s-author" ref={ref} className="field" value={f.author}
               onChange={(e) => setF({ ...f, author: e.target.value })} placeholder="Organisation ou prénom" />
           </div>
+          {titre ? (
+          <div>
+            <p className="label">Titre actuel</p>
+            <p className="text-[14px] italic text-black/60">{quote}</p>
+          </div>
+          ) : (
           <div>
             <label className="label" htmlFor="s-quote">Passage visé</label>
             <textarea id="s-quote" className="field min-h-[140px] text-[14px] italic" value={f.quote}
               onChange={(e) => setF({ ...f, quote: e.target.value })} />
           </div>
+          )}
           <div>
-            <label className="label" htmlFor="s-prop">Votre proposition</label>
-            <textarea id="s-prop" className="field min-h-[180px]" value={f.proposal}
-              onChange={(e) => setF({ ...f, proposal: e.target.value })} placeholder="Remplacer par…" />
+            <label className="label" htmlFor="s-prop">{titre ? 'Titre proposé' : 'Votre proposition'}</label>
+            {titre
+              ? <input id="s-prop" className="field" value={f.proposal} onChange={(e) => setF({ ...f, proposal: e.target.value })} placeholder="Nouveau titre" />
+              : <textarea id="s-prop" className="field min-h-[180px]" value={f.proposal}
+                  onChange={(e) => setF({ ...f, proposal: e.target.value })} placeholder="Remplacer par…" />}
           </div>
           <div>
             <label className="label" htmlFor="s-why">Pourquoi <span className="text-black/35">(facultatif)</span></label>
@@ -506,7 +518,28 @@ async function reduireLogo(f: File): Promise<File> {
   throw new Error('trop lourd')
 }
 
-// Petit crayon à côté du titre, seulement pour qui pilote le texte (16/10/2026, demandé par Ste).
+// Crayon des signataires (16/10/2026) : il ouvre « Proposer un autre titre », validé ensuite par qui pilote.
+function TitrePublic({ titre, ouvert, onProposer }: { titre: string; ouvert: boolean; onProposer: () => void }) {
+  return (
+    <h1 className="text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+      {titre}
+      {ouvert && <BoutonCrayon label="Proposer un autre titre" onClick={onProposer} />}
+    </h1>
+  )
+}
+
+function BoutonCrayon({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <button type="button" onClick={onClick} aria-label={label} title={label}
+      className="ml-3 inline-flex h-8 w-8 translate-y-[-4px] items-center justify-center rounded-lg align-middle text-black/35 hover:bg-black/5 hover:text-violet">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+      </svg>
+    </button>
+  )
+}
+
+// Petit crayon à côté du titre pour qui pilote le texte : modification directe (16/10/2026, demandé par Ste).
 function TitrePilote({ slug, k, titre, onSaved }: { slug: string; k: string; titre: string; onSaved: () => void }) {
   const [edition, setEdition] = useState(false)
   const [v, setV] = useState(titre)
@@ -528,12 +561,7 @@ function TitrePilote({ slug, k, titre, onSaved }: { slug: string; k: string; tit
     return (
       <h1 className={style}>
         {titre}
-        <button type="button" onClick={() => setEdition(true)} aria-label="Modifier le titre" title="Modifier le titre"
-          className="ml-3 inline-flex h-8 w-8 translate-y-[-4px] items-center justify-center rounded-lg align-middle text-black/35 hover:bg-black/5 hover:text-violet">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-          </svg>
-        </button>
+        <BoutonCrayon label="Modifier le titre" onClick={() => setEdition(true)} />
       </h1>
     )
   }

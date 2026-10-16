@@ -27,7 +27,7 @@ export async function GET(req: Request, { params }: Ctx) {
 
   const sugQuery = db
     .from('suggestions')
-    .select('id, author, quote, proposal, reason, status, version, created_at')
+    .select('id, author, quote, proposal, reason, status, version, created_at, cible')
     .eq('appeal_id', appeal.id)
     .order('created_at', { ascending: true })
   const { data: suggestions } = isAdmin ? await sugQuery : await sugQuery.neq('status', 'rejected')
