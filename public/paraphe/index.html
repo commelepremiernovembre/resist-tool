@@ -268,6 +268,17 @@ code{font-size:12px;background:var(--fond);padding:1px 5px;border-radius:5px;wor
 .reglage h4{margin:0 0 4px;font-size:14px}
 .reglage p{margin:0 0 10px;font-size:13px;color:var(--doux)}
 @media(prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+/* 16/10/2026 (Ste) : retour au tableau de bord « technique » d'avant : sur ordi, logo en petit dans la colonne
+   de gauche (plus de grand titre) ; fond gris clair à la place du rose ; angles beaucoup moins arrondis. */
+.zone{background:var(--fond);border-radius:6px}
+.fiche,.reglage,.vide,.menu,.astuce{border-radius:6px}
+.vignette{border-radius:4px}
+.b,.loupe,.champ input,.nav{border-radius:5px}
+@media(min-width:900px){
+  .haut-page{display:none}
+  .logo{display:block!important;padding:4px 6px 18px}
+  .rail{background:var(--fond);border-radius:6px}
+}
 </style>
 </head>
 <body>

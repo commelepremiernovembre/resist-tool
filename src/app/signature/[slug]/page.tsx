@@ -85,12 +85,8 @@ export default function TexteASigner({ params }: { params: { slug: string } }) {
             Signatures closes
           </p>
         )}
-        {/* L'icône bleue de Textes : la même que sur la fiche dans Paraphe, on reconnaît l'outil d'un coup d'œil. */}
-        <div className="flex items-start gap-4">
-          <img src={appeal.image_path ? `/api/appeals/${params.slug}/image?v=${encodeURIComponent(appeal.image_path)}` : '/icon-textes.png'} alt=""
-            className="mt-1 h-11 w-11 shrink-0 rounded-xl object-cover sm:h-12 sm:w-12" />
-          <h1 className="text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{appeal.title}</h1>
-        </div>
+        {/* Icône du texte retirée le 16/10 à la demande de Ste. */}
+        <h1 className="text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{appeal.title}</h1>
         {appeal.porteur && <p className="mt-2 text-[15px] font-medium text-black/70">Porté par {appeal.porteur}</p>}
         {appeal.intro && <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-black/60">{appeal.intro}</p>}
         <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-[13.5px] text-black/55">

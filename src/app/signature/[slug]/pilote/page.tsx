@@ -116,17 +116,17 @@ export default function Pilote({ params }: { params: { slug: string } }) {
           Pilotage · version {appeal.version}
         </p>
         <div className="flex items-start gap-3">
-          <ImageTexte slug={params.slug} k={k} path={appeal.image_path ?? null} onChange={() => load()} />
+          {/* Logo/icône du texte retiré le 16/10 à la demande de Ste (composant ImageTexte gardé). */}
           <div className="min-w-0 flex-1"><Titre key={appeal.title} titre={appeal.title} onSave={(title) => patch({ title })} /></div>
         </div>
         <Porteur key={appeal.porteur ?? ''} valeur={appeal.porteur ?? ''} onSave={(porteur) => patch({ porteur })} />
         <LienSignataires slug={params.slug} />
         <LienPilotage slug={params.slug} k={k} />
         <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <Stat n={counts.oui} label="signent" />
-          <Stat n={counts.reserve} label="sous réserve" />
-          <Stat n={counts.reflexion} label="en réflexion" />
-          <Stat n={counts.non} label="ne signent pas" />
+          <Stat n={counts.oui} label="Oui, je signe" />
+          <Stat n={counts.reserve} label="Oui, si les modifs suggérées sont intégrées" />
+          <Stat n={counts.non} label="Non" />
+          <Stat n={counts.reflexion} label="En cours de réflexion" />
           <Stat n={counts.logos} label="logos reçus" />
           <Stat n={appeal.vues ?? 0} label="vues du lien" />
         </div>
@@ -421,7 +421,7 @@ function LienSignataires({ slug }: { slug: string }) {
   const lien = typeof window !== 'undefined' ? `${window.location.origin}/signature/${slug}` : ''
   return (
     <div className="mt-4 rounded-xl bg-wall px-4 py-3 text-[13.5px]">
-      <p className="text-black/55">Lien à envoyer aux futurs signataires</p>
+      <p className="text-black/55">Lien du document à envoyer pour signature</p>
       <div className="mt-1 flex flex-wrap items-center gap-2">
         <span className="min-w-0 flex-1 break-all font-mono text-[13px]">{lien}</span>
         <button className="shrink-0 rounded-lg border border-black/20 bg-white px-3 py-1"

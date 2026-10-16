@@ -5,11 +5,11 @@
 
 import { useEffect, useState } from 'react'
 
-export function LienOutil({ href, className, children }: { href: string; className?: string; children: React.ReactNode }) {
+export function LienOutil({ href, className, style, children }: { href: string; className?: string; style?: React.CSSProperties; children: React.ReactNode }) {
   const [onglet, setOnglet] = useState(false)
   useEffect(() => {
     const appli = window.matchMedia('(display-mode: standalone)').matches || (navigator as { standalone?: boolean }).standalone === true
     setOnglet(!appli)
   }, [])
-  return <a href={href} className={className} {...(onglet ? { target: '_blank' } : {})}>{children}</a>
+  return <a href={href} className={className} style={style} {...(onglet ? { target: '_blank' } : {})}>{children}</a>
 }

@@ -91,26 +91,35 @@ export default function MonEspace() {
       <Wordmark size="sm" />
       {/* Mon espace : fond gris de Resist, panneaux blancs (comme l’accueil). */}
       <h1 className="mt-10 text-center font-display text-4xl font-extrabold tracking-tight text-ink sm:text-6xl">Mon espace</h1>
-      <div className="mt-8 rounded-3xl bg-white shadow-card px-5 py-8 sm:px-10">
-        <p className="text-center text-[15px] text-black/60">
-          Vos textes, sondages et pétitions, sur tous vos appareils.<br />Sans compte : un code personnel suffit.
-        </p>
-        {etat && <p className="mt-3 rounded-xl bg-wall px-3 py-2 text-[14px]">{etat}</p>}
+      <p className="mt-6 text-center text-[15px] text-black/60">
+        Vos textes, sondages et pétitions, sur tous vos appareils.<br />Sans compte : un code personnel suffit.
+      </p>
+      {etat && <p className="mt-3 rounded-xl bg-white px-3 py-2 text-[14px]">{etat}</p>}
 
-        {([
+      {/* Un panneau blanc par appli : Textes, Sondages, Pétitions. */}
+      {([
+        ['textes', [
           ['pilote', 'Textes que je pilote', "Aucun texte créé pour l'instant.", 'pilotage'],
           ['signe', "Textes que j'ai signés", "Aucun texte signé pour l'instant.", 'signé'],
+        ]],
+        ['reunion', [
           ['reunion', 'Sondages de date', "Aucun sondage pour l'instant.", undefined],
-        ] as const).map(([t, titre, vide, note]) => (
-          <Section key={t} outil={t === 'reunion' ? 'reunion' : 'textes'} titre={titre} vide={vide} archives={archives(t).map((e) => (
-            <Ligne key={e.id} e={e} href={lien(e)} note={note} onRanger={ranger} />
-          ))}>
-            {actifs(t).map((e) => (
+        ]],
+      ] as const).map(([outil, sections]) => (
+        <div key={outil} className="mt-6 rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:px-10">
+          {sections.map(([t, titre, vide, note]) => (
+            <Section key={t} outil={outil} titre={titre} vide={vide} archives={archives(t).map((e) => (
               <Ligne key={e.id} e={e} href={lien(e)} note={note} onRanger={ranger} />
-            ))}
-          </Section>
-        ))}
+            ))}>
+              {actifs(t).map((e) => (
+                <Ligne key={e.id} e={e} href={lien(e)} note={note} onRanger={ranger} />
+              ))}
+            </Section>
+          ))}
+        </div>
+      ))}
 
+      <div className="mt-6 rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:px-10">
         <TitreOutil outil="paraphe" titre="Pétitions" />
         <p className="mt-2 text-[14px] text-black/60">
           {petitions == null ? 'Elles sont rangées dans Paraphe.' : `${petitions} pétition${petitions > 1 ? 's' : ''} dans Paraphe.`}{' '}
@@ -151,7 +160,7 @@ const OUTILS = {
 
 function TitreOutil({ outil, titre }: { outil: keyof typeof OUTILS; titre: string }) {
   return (
-    <h2 className="mt-8 flex items-center gap-2 text-[15px] font-semibold" style={{ color: OUTILS[outil].couleur }}>
+    <h2 className="mt-6 flex items-center gap-2 text-[15px] font-semibold" style={{ color: OUTILS[outil].couleur }}>
       <img src={OUTILS[outil].icone} alt="" className="h-5 w-5 rounded-md" />
       {titre}
     </h2>

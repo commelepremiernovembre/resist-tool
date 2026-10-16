@@ -51,7 +51,7 @@ body {
 .amb-reunion .text-violet:not(a.group > *), .amb-reunion .hover\:text-violet:hover { color: #FF7A00; }
 .amb-reunion .bg-violet:not(a.group > *), .amb-reunion .btn-primary { background-color: #FF7A00; color: #fff; }
 .amb-reunion .hover\:bg-violet-dark:hover, .amb-reunion .btn-primary:hover { background-color: #E86A00; }
-.amb-reunion .bg-violet-wash, .amb-reunion .hover\:bg-violet-wash:hover { background-color: #FDFBE6; }
+.amb-reunion .bg-violet-wash, .amb-reunion .hover\:bg-violet-wash:hover { background-color: #FFF3E6; }
 .amb-reunion .border-violet { border-color: #FF7A00; }
 .amb-reunion .border-violet\/50 { border-color: rgb(255 122 0 / .5); }
 .amb-reunion .decoration-violet\/40 { text-decoration-color: rgb(255 122 0 / .45); }
