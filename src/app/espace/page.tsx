@@ -153,7 +153,7 @@ export default function MonEspace() {
 
 // Chaque rubrique à la couleur de son outil, avec son icône R! : bleu Textes, orange Réunion, rose Paraphe.
 const OUTILS = {
-  textes: { couleur: '#1A7CF0', icone: '/icon-textes.png' },
+  textes: { couleur: '#4B2AEF', icone: '/icon-textes.png' },
   reunion: { couleur: '#FF7A00', icone: '/icon-reunion.png' },
   paraphe: { couleur: '#DB1A74', icone: '/icon-paraphe.png' },
 } as const

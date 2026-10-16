@@ -64,15 +64,15 @@ body:has(.amb-reunion) { background: #fff; }
 
 /* Ambiance Textes (15/10/2026) : bleu clair et franc, comme l'orange de Réunion et le rose de Paraphe ;
    le logo « Resist ! » (a.group) reste violet. */
-.amb-textes .text-violet:not(a.group > *), .amb-textes .hover\:text-violet:hover, .amb-textes .text-violet-dark { color: #1A7CF0; }
-.amb-textes .bg-violet:not(a.group > *), .amb-textes .btn-primary { background-color: #1A7CF0; color: #fff; }
-.amb-textes .hover\:bg-violet-dark:hover, .amb-textes .btn-primary:hover, .amb-textes .bg-violet-dark { background-color: #1166D6; }
-.amb-textes .bg-violet-wash, .amb-textes .hover\:bg-violet-wash:hover, .amb-textes .btn-ghost:hover { background-color: #E5F1FF; }
-.amb-textes .bg-violet-wash\/60, .amb-textes .bg-violet-wash\/50 { background-color: rgb(229 241 255 / .7); }
-.amb-textes .border-violet { border-color: #1A7CF0; }
-.amb-textes .btn-ghost { border-color: rgb(26 124 240 / .4); color: #1A7CF0; }
-.amb-textes .decoration-violet\/40 { text-decoration-color: rgb(26 124 240 / .45); }
-.amb-textes .accent-\[\#4B2AEF\], .amb-textes .accent-violet { accent-color: #1A7CF0; }
-.amb-textes .field:focus { border-color: #1A7CF0; --tw-ring-color: rgb(26 124 240 / .15); }
+/* retiré 16/10/2026 (LOX : tout en violet Resist) */ /* .amb-textes .text-violet:not(a.group > *), .amb-textes .hover\:text-violet:hover, .amb-textes .text-violet-dark { color: #1A7CF0; } */
+/* retiré 16/10/2026 (LOX : tout en violet Resist) */ /* .amb-textes .bg-violet:not(a.group > *), .amb-textes .btn-primary { background-color: #1A7CF0; color: #fff; } */
+/* retiré 16/10/2026 (LOX : tout en violet Resist) */ /* .amb-textes .hover\:bg-violet-dark:hover, .amb-textes .btn-primary:hover, .amb-textes .bg-violet-dark { background-color: #1166D6; } */
+/* retiré 16/10/2026 (LOX : tout en violet Resist) */ /* .amb-textes .bg-violet-wash, .amb-textes .hover\:bg-violet-wash:hover, .amb-textes .btn-ghost:hover { background-color: #E5F1FF; } */
+/* retiré 16/10/2026 (LOX : tout en violet Resist) */ /* .amb-textes .bg-violet-wash\/60, .amb-textes .bg-violet-wash\/50 { background-color: rgb(229 241 255 / .7); } */
+/* retiré 16/10/2026 (LOX : tout en violet Resist) */ /* .amb-textes .border-violet { border-color: #1A7CF0; } */
+/* retiré 16/10/2026 (LOX : tout en violet Resist) */ /* .amb-textes .btn-ghost { border-color: rgb(26 124 240 / .4); color: #1A7CF0; } */
+/* retiré 16/10/2026 (LOX : tout en violet Resist) */ /* .amb-textes .decoration-violet\/40 { text-decoration-color: rgb(26 124 240 / .45); } */
+/* retiré 16/10/2026 (LOX : tout en violet Resist) */ /* .amb-textes .accent-\[\#4B2AEF\], .amb-textes .accent-violet { accent-color: #1A7CF0; } */
+/* retiré 16/10/2026 (LOX : tout en violet Resist) */ /* .amb-textes .field:focus { border-color: #1A7CF0; --tw-ring-color: rgb(26 124 240 / .15); } */
 /* Fond blanc pour Textes et Mon espace, comme Réunion : leurs panneaux pâles ressortent mieux. */
 body:has(.amb-textes) { background: #fff; }
