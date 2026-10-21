@@ -1,5 +1,6 @@
 'use client'
 
+import { stat } from '@/lib/stat'
 import Link from 'next/link'
 import { effaceLe } from '@/lib/duree'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -79,6 +80,7 @@ export default function Sondage({ params }: { params: { slug: string } }) {
     })
     setBusy(false)
     if (!res.ok) return setFlash((await res.json()).error ?? 'Enregistrement impossible.')
+    stat('Dispos données')
     setEdit(null); setFlash('Vos disponibilités sont enregistrées.')
     load()
   }

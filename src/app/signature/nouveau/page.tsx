@@ -1,5 +1,6 @@
 'use client'
 
+import { stat } from '@/lib/stat'
 import { useState } from 'react'
 import { Wordmark } from '@/components/Wordmark'
 import { AutoTextarea } from '@/components/AutoTextarea'
@@ -25,6 +26,7 @@ export default function NouveauTexte() {
     const data = await res.json()
     setBusy(false)
     if (!res.ok) return setErr(data.error ?? 'Création impossible.')
+    stat('Texte créé')
     setDone(data)
     noter({ type: 'pilote', slug: data.slug, titre: form.title.trim(), k: data.admin_key }, true)
   }

@@ -1,5 +1,6 @@
 'use client'
 
+import { stat } from '@/lib/stat'
 import { useRouter } from 'next/navigation'
 import { Haut } from '@/components/reunion/Haut'
 import { Formulaire } from '@/components/reunion/Formulaire'
@@ -18,6 +19,7 @@ export default function NouveauSondage() {
             const res = await fetch('/api/polls', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(r) })
             const data = await res.json()
             if (!res.ok) return data.error ?? 'Création impossible.'
+            stat('Sondage créé')
             noter({ type: 'reunion', slug: data.slug, titre: String(r.title ?? '') }, true)
             try { localStorage.setItem('resist:createur:' + data.slug, '1') } catch {} // ses vues ne comptent pas
             router.push(`/reunion/${data.slug}`)

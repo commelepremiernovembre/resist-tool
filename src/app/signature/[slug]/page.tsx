@@ -1,5 +1,6 @@
 'use client'
 
+import { stat } from '@/lib/stat'
 import { Ajouts, Retraits } from '@/components/Ecart'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
@@ -195,6 +196,7 @@ function SuggestModal({ slug, quote, titre, onClose, onDone }: { slug: string; q
     })
     const body = await res.json(); setBusy(false)
     if (!res.ok) return setErr(body.error ?? 'Envoi impossible.')
+    stat('Modif proposée')
     onDone()
   }
 
@@ -315,6 +317,7 @@ function SignBox({ slug, version, onDone }: { slug: string; version: number; onD
     if (res.status === 409 && body.code === 'name_taken') return setConflict(body.error)
     if (!res.ok) return setErr(body.error ?? 'Envoi impossible.')
     localStorage.setItem(storeKey(slug), body.s)
+    stat('Texte signé')
     setSaved(body.s)
     setEnvoye(true)
     onDone()

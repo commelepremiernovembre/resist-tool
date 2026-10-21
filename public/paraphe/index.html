@@ -569,6 +569,8 @@ async function rattraperImages(){
 }
 setTimeout(rattraperImages,1500);
 
+// Événements Vercel Web Analytics (21/10/2026) : on compte les actions, jamais leur contenu.
+function stat(name,data){try{window.va=window.va||function(...p){(window.vaq=window.vaq||[]).push(p)};window.va('event',{name,data})}catch(e){}}
 function ajouter(liens,{source='Autre',note=''}={}){
   let neufs=0,doublons=0;
   liens.forEach(u=>{
@@ -586,6 +588,7 @@ function ajouter(liens,{source='Autre',note=''}={}){
     if(navigator.onLine) chercherTitre(it);
   });
   ecrire(items); rendre();
+  if(neufs) stat('Pétition ajoutée',{nombre:neufs});
   return {neufs,doublons};
 }
 
@@ -722,7 +725,7 @@ function fiche(i){
     const b=e.target.closest('[data-act]'); if(!b) return;
     if(b.dataset.act==='ouvrir'){ ouvertLe=i.id; return; } // le lien s'ouvre ; la question vient au retour
     if(b.dataset.act==='signer'){
-      aConfirmer=null; i.etat='signee'; i.signeeLe=new Date().toISOString(); ecrire(items);
+      aConfirmer=null; i.etat='signee'; i.signeeLe=new Date().toISOString(); stat('Pétition signée'); ecrire(items);
       toast('Rangée dans l’historique.'); rendre();
     }
     if(b.dataset.act==='pasencore'){ aConfirmer=null; rendre(); }
@@ -742,7 +745,7 @@ function menu(ancre,i){
     ['✎  Note…',()=>{ const n=prompt('Note',i.note||''); if(n!==null) i.note=n.trim(); }],
     ['✐  Renommer…',()=>{ const n=prompt('Titre',i.titre); if(n) i.titre=n.trim(); }],
     ['⎘  Copier le lien',()=>{ if(navigator.clipboard) navigator.clipboard.writeText(i.url); toast('Lien copié'); }],
-    ...(i.etat==='attente'?[['✓  Marquer comme signée',()=>{ i.etat='signee'; i.signeeLe=new Date().toISOString(); }]]:[]),
+    ...(i.etat==='attente'?[['✓  Marquer comme signée',()=>{ i.etat='signee'; i.signeeLe=new Date().toISOString(); stat('Pétition signée'); }]]:[]),
     i.etat==='attente'?['⌫  Archiver sans signer',()=>{ i.etat='archivee'; }]
                       :['↩  Remettre à signer',()=>{ i.etat='attente'; i.signeeLe=null; }],
     ['✕  Supprimer',()=>{ if(confirm('Supprimer « '+i.titre+' » ?')) items=items.filter(x=>x.id!==i.id); },true]
