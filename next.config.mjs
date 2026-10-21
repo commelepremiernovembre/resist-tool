@@ -5,9 +5,9 @@ const nextConfig = {
   async rewrites() {
     return [{ source: '/paraphe', destination: '/paraphe/index.html' }]
   },
-  // Textes retirés du site (gardés en base) : la page publique renvoie à l'accueil, le pilotage reste ouvert.
+  // Textes retirés du site (gardés en base) : la page publique renvoie à l'accueil, le pilotage reste ouvert. La visite est comptée (événement « Texte retiré visité »).
   async redirects() {
-    return ['tu-m-embrasses-2j5o'].map((slug) => ({ source: `/signature/${slug}`, destination: '/', permanent: false }))
+    return ['tu-m-embrasses-2j5o'].map((slug) => ({ source: `/signature/${slug}`, destination: `/?retire=${slug}`, permanent: false }))
   },
   async headers() {
     return [

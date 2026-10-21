@@ -1,5 +1,6 @@
 import { LienOutil } from '@/components/LienOutil'
 import { Wordmark } from '@/components/Wordmark'
+import { VisiteRetiree } from '@/components/VisiteRetiree'
 import { IllusSignature, IllusReunion, IllusPetition } from '@/components/Illus'
 
 const tools = [
@@ -33,6 +34,7 @@ const tools = [
 export default function Home() {
   return (
     <main className="mx-auto max-w-5xl px-5 pb-24 pt-10">
+      <VisiteRetiree />
       <div className="card overflow-hidden px-5 py-12 sm:px-12 sm:py-16">
         <div className="text-center">
           <div className="inline-block text-left">
