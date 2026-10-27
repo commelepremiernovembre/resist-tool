@@ -87,11 +87,11 @@ export default function MonEspace() {
   const appareils = items.filter((x) => x.type === 'appareil').length
 
   return (
-    <main className="amb-espace mx-auto max-w-3xl px-5 pb-24 pt-10">
+    <main className="amb-espace mx-auto max-w-3xl px-5 pb-24 pt-6">
       <Wordmark size="sm" />
       {/* Mon espace : fond gris de Resist, panneaux blancs (comme l’accueil). */}
-      <h1 className="mt-10 text-center font-display text-4xl font-extrabold tracking-tight text-ink sm:text-6xl">Mon espace</h1>
-      <p className="mt-6 text-center text-[15px] text-black/60">
+      <h1 className="mt-5 text-center font-display text-4xl font-extrabold tracking-tight text-ink sm:text-6xl">Mon espace</h1>
+      <p className="mt-3 text-center text-[15px] text-black/60">
         Vos textes, sondages et pétitions, sur tous vos appareils.<br />Sans compte : un code personnel suffit.
       </p>
       {etat && <p className="mt-3 rounded-xl bg-white px-3 py-2 text-[14px]">{etat}</p>}
@@ -105,8 +105,8 @@ export default function MonEspace() {
         ['reunion', [
           ['reunion', 'Sondages de date', "Aucun sondage pour l'instant.", undefined],
         ]],
-      ] as const).map(([outil, sections]) => (
-        <div key={outil} className="mt-20 rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:mt-10 sm:px-10">
+      ] as const).map(([outil, sections], i) => (
+        <div key={outil} className={`${i ? 'mt-28 sm:mt-14' : 'mt-8'} rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:px-10`}>
           {sections.map(([t, titre, vide, note]) => (
             <Section key={t} outil={outil} titre={titre} vide={vide} archives={archives(t).map((e) => (
               <Ligne key={e.id} e={e} href={lien(e)} note={note} onRanger={ranger} />
@@ -119,7 +119,7 @@ export default function MonEspace() {
         </div>
       ))}
 
-      <div className="mt-20 rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:mt-10 sm:px-10">
+      <div className="mt-28 rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:mt-14 sm:px-10">
         <TitreOutil outil="paraphe" titre="Espace Pétition" />
         <p className="mt-2 text-[14px] text-black/60">
           {petitions == null ? 'Elles sont rangées dans Paraphe.' : `${petitions} pétition${petitions > 1 ? 's' : ''} dans Paraphe.`}{' '}
@@ -128,7 +128,7 @@ export default function MonEspace() {
       </div>
 
       {/* Replié dès que deux appareils sont reliés : on n'en a plus besoin tous les jours. */}
-      <details key={appareils > 1 ? 'relie' : 'seul'} open={appareils < 2} className="mt-20 sm:mt-10 rounded-3xl bg-white shadow-card px-5 py-4 text-[13.5px] sm:px-8">
+      <details key={appareils > 1 ? 'relie' : 'seul'} open={appareils < 2} className="mt-28 sm:mt-14 rounded-3xl bg-white shadow-card px-5 py-4 text-[13.5px] sm:px-8">
         <summary className="cursor-pointer text-black/60">
           {appareils > 1 ? `${appareils} appareils reliés — en relier un autre` : 'Retrouver tout ça sur un autre appareil'}
         </summary>
