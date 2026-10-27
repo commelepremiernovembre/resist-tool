@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const habillage = ''
   return (
     <html lang="fr" className={`${display.variable} ${body.variable} ${punkDisplay.variable} ${punkMono.variable} ${classeSerif.variable} ${nirvanaMarker.variable} ${nirvanaType.variable} ${habillage}`}>
-      <body className="font-sans antialiased">{children}<InstallSW /><script src="/i18n.js" defer />{/* Vercel Web Analytics (16/10/2026) : visites anonymes, sans cookie. */}<script src="/_vercel/insights/script.js" defer /></body>
+      <body className="font-sans antialiased">{children}<InstallSW /><script src="/i18n.js" defer /><script src="/maj.js" defer />{/* Vercel Web Analytics (16/10/2026) : visites anonymes, sans cookie. */}<script src="/_vercel/insights/script.js" defer /></body>
     </html>
   )
 }
