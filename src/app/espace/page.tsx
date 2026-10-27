@@ -106,7 +106,7 @@ export default function MonEspace() {
           ['reunion', 'Sondages de date', "Aucun sondage pour l'instant.", undefined],
         ]],
       ] as const).map(([outil, sections]) => (
-        <div key={outil} className="mt-6 rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:px-10">
+        <div key={outil} className="mt-12 rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:mt-8 sm:px-10">
           {sections.map(([t, titre, vide, note]) => (
             <Section key={t} outil={outil} titre={titre} vide={vide} archives={archives(t).map((e) => (
               <Ligne key={e.id} e={e} href={lien(e)} note={note} onRanger={ranger} />
@@ -119,7 +119,7 @@ export default function MonEspace() {
         </div>
       ))}
 
-      <div className="mt-6 rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:px-10">
+      <div className="mt-12 rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:mt-8 sm:px-10">
         <TitreOutil outil="paraphe" titre="Espace Pétition" />
         <p className="mt-2 text-[14px] text-black/60">
           {petitions == null ? 'Elles sont rangées dans Paraphe.' : `${petitions} pétition${petitions > 1 ? 's' : ''} dans Paraphe.`}{' '}
@@ -128,7 +128,7 @@ export default function MonEspace() {
       </div>
 
       {/* Replié dès que deux appareils sont reliés : on n'en a plus besoin tous les jours. */}
-      <details key={appareils > 1 ? 'relie' : 'seul'} open={appareils < 2} className="mt-4 rounded-3xl bg-white shadow-card px-5 py-4 text-[13.5px] sm:px-8">
+      <details key={appareils > 1 ? 'relie' : 'seul'} open={appareils < 2} className="mt-12 sm:mt-8 rounded-3xl bg-white shadow-card px-5 py-4 text-[13.5px] sm:px-8">
         <summary className="cursor-pointer text-black/60">
           {appareils > 1 ? `${appareils} appareils reliés — en relier un autre` : 'Retrouver tout ça sur un autre appareil'}
         </summary>
