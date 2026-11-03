@@ -1,19 +1,28 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const MOIS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']
 const JOURS = ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di']
 const pad = (n: number) => String(n).padStart(2, '0')
 const iso = (y: number, m: number, d: number) => `${y}-${pad(m + 1)}-${pad(d)}`
+const APPUI_LONG_MS = 350
+const TOLERANCE_PX = 10
 
-/** Calendrier : un appui choisit ou retire une date, glisser en sélectionne plusieurs d'un coup. */
+/**
+ * Calendrier. Souris : cliquer choisit ou retire une date, cliquer-glisser en sélectionne plusieurs.
+ * Doigt : glisser fait défiler la page, toucher choisit ou retire une date, rester appuyé puis glisser
+ * en sélectionne plusieurs (mêmes gestes que la grille des disponibilités).
+ */
 export function DatesPicker({ value, onChange }: { value: string[]; onChange: (dates: string[]) => void }) {
   const now = new Date()
   const first = value.length ? new Date(`${[...value].sort()[0]}T12:00:00`) : now
   const [y, setY] = useState(first.getFullYear())
   const [m, setM] = useState(first.getMonth())
   const drag = useRef<{ add: boolean; seen: Set<string> } | null>(null)
+  // Doigt posé, pas encore décidé : défilement, simple toucher ou appui long ?
+  const appui = useRef<{ x: number; y: number; d: string; timer: number } | null>(null)
+  const zone = useRef<HTMLDivElement>(null)
   const today = iso(now.getFullYear(), now.getMonth(), now.getDate())
 
   const offset = (new Date(y, m, 1).getDay() + 6) % 7
@@ -30,6 +39,25 @@ export function DatesPicker({ value, onChange }: { value: string[]; onChange: (d
     g.add ? next.add(d) : next.delete(d)
     onChange([...next].sort())
   }
+  const commencer = (d: string) => {
+    drag.current = { add: !set.has(d), seen: new Set() }
+    apply(d)
+  }
+  const oublierAppui = () => {
+    if (appui.current) window.clearTimeout(appui.current.timer)
+    appui.current = null
+  }
+
+  // Une fois l'appui long déclenché, le doigt sélectionne : on empêche alors la page de défiler.
+  // Écouteur natif car React n'en pose pas de « non passif », seul moyen de bloquer le défilement.
+  useEffect(() => {
+    const el = zone.current
+    if (!el) return
+    const bloquer = (e: TouchEvent) => { if (drag.current) e.preventDefault() }
+    el.addEventListener('touchmove', bloquer, { passive: false })
+    return () => { el.removeEventListener('touchmove', bloquer); oublierAppui() }
+  }, [])
+
   const move = (delta: number) => {
     const d = new Date(y, m + delta, 1)
     setY(d.getFullYear()); setM(d.getMonth())
@@ -55,17 +83,42 @@ export function DatesPicker({ value, onChange }: { value: string[]; onChange: (d
         {JOURS.map((j) => <div key={j} className="py-1">{j}</div>)}
       </div>
       <div
-        className="grid touch-none grid-cols-7 gap-0.5"
+        ref={zone}
+        className="grid touch-manipulation grid-cols-7 gap-0.5"
+        style={{ WebkitTouchCallout: 'none' }}
+        onContextMenu={(e) => { if (drag.current || appui.current) e.preventDefault() }}
         onPointerDown={(e) => {
           const d = at(e)
           if (!d || d < today) return
+          if (e.pointerType === 'touch') {
+            // Deuxième doigt (zoom) : on ne coche rien.
+            oublierAppui()
+            if (!e.isPrimary) return
+            appui.current = {
+              x: e.clientX, y: e.clientY, d,
+              timer: window.setTimeout(() => {
+                appui.current = null
+                navigator.vibrate?.(15)
+                commencer(d)
+              }, APPUI_LONG_MS),
+            }
+            return
+          }
           ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
-          drag.current = { add: !set.has(d), seen: new Set() }
-          apply(d)
+          commencer(d)
         }}
-        onPointerMove={(e) => { if (drag.current) { const d = at(e); if (d) apply(d) } }}
-        onPointerUp={() => { drag.current = null }}
-        onPointerCancel={() => { drag.current = null }}
+        onPointerMove={(e) => {
+          // Le doigt bouge avant l'appui long : c'est un défilement, on ne coche rien.
+          const a = appui.current
+          if (a && Math.hypot(e.clientX - a.x, e.clientY - a.y) > TOLERANCE_PX) oublierAppui()
+          if (drag.current) { const d = at(e); if (d) apply(d) }
+        }}
+        onPointerUp={() => {
+          // Doigt relevé sans avoir bougé ni attendu : simple toucher, une date.
+          if (appui.current) { const { d } = appui.current; oublierAppui(); commencer(d) }
+          drag.current = null
+        }}
+        onPointerCancel={() => { oublierAppui(); drag.current = null }}
       >
         {cells.map((d, i) =>
           d ? (
