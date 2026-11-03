@@ -184,9 +184,9 @@ export default function Sondage({ params }: { params: { slug: string } }) {
           <PrefsMenu value={prefs} onChange={setPrefs} />
           {edit ? (
             <div className="flex w-full gap-3 sm:w-auto">
-              <button className="flex-1 rounded-xl bg-[#FF8A1F] px-6 py-3 text-[13px] font-bold uppercase tracking-wide text-ink sm:flex-none"
+              <button className="flex-1 rounded-xl bg-[#FFD8B0] px-6 py-3 text-[13px] font-bold uppercase tracking-wide text-ink sm:flex-none"
                 onClick={() => setEdit(null)}>Annuler</button>
-              <button className="flex-1 rounded-xl bg-[#2FC25B] px-6 py-3 text-[13px] font-bold uppercase tracking-wide text-ink disabled:opacity-60 sm:flex-none"
+              <button className="flex-1 rounded-xl bg-[#B7E4C7] px-6 py-3 text-[13px] font-bold uppercase tracking-wide text-ink disabled:opacity-60 sm:flex-none"
                 onClick={save} disabled={busy}>{busy ? '…' : 'Valider'}</button>
             </div>
           ) : asking ? (

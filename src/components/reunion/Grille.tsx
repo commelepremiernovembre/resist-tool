@@ -96,7 +96,7 @@ export function Grille({ dates, earliest, latest, mine, onMine, dispos = [], foc
               // Une heure sur deux sur fond gris, comme la maquette de LOX : on suit mieux les lignes.
               const bande = Math.floor((t - times[0]) / 60) % 2 === 1 ? 'rgba(14, 14, 18, .035)' : undefined
               const bg = editing
-                ? on ? 'rgb(31 122 92)' : bande
+                ? on ? '#B7E4C7' : bande
                 : n ? `rgba(255, 122, 0, ${0.12 + 0.88 * (n / Math.max(total, 1))})` : bande
               return (
                 <div
