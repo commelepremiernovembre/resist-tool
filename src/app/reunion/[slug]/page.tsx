@@ -203,7 +203,7 @@ export default function Sondage({ params }: { params: { slug: string } }) {
 
         {edit && (
           <p className="mt-4 rounded-xl bg-moss/10 px-4 py-2.5 text-[14px]">
-            <b>{edit.name}</b> : touchez ou glissez sur la grille pour cocher vos créneaux libres, puis Valider.
+            <b>{edit.name}</b> : touchez une case pour cocher un créneau libre. Pour en cocher plusieurs, restez appuyé puis glissez. Ensuite, Valider.
           </p>
         )}
         {flash && !edit && <p className="mt-4 rounded-xl bg-violet-wash px-4 py-2.5 text-[14px]">{flash}</p>}
