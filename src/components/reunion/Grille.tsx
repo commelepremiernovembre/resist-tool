@@ -1,10 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { dayShort, hhmm, key, rows, type Dispo } from '@/lib/reunion'
-
-const APPUI_LONG_MS = 350
-const TOLERANCE_PX = 10
 
 type Props = {
   dates: string[]
@@ -20,17 +17,14 @@ type Props = {
 }
 
 /**
- * Grille jours × demi-heures. En saisie, le premier créneau touché décide : on ajoute ou on retire.
- * Souris : cliquer-glisser peint. Doigt : glisser fait défiler la page, toucher coche une case,
- * rester appuyé puis glisser peint plusieurs cases (retour de LOX : on ne pouvait plus défiler).
+ * Grille jours × demi-heures. En saisie, on glisse le doigt ou la souris sur les cases pour peindre
+ * ses dispos (le premier créneau touché décide : on ajoute ou on retire).
+ * Au doigt, seules les cases captent le geste : la colonne des heures et les dates font défiler.
  * En affichage, plus la case est foncée, plus il y a de monde.
  */
 export function Grille({ dates, earliest, latest, mine, onMine, dispos = [], focus, onFocus }: Props) {
   const editing = !!mine
   const drag = useRef<{ add: boolean; base: Set<string>; start: [number, number] } | null>(null)
-  // Doigt posé, pas encore décidé : défilement, simple toucher ou appui long ?
-  const appui = useRef<{ x: number; y: number; c: [number, number]; timer: number } | null>(null)
-  const grille = useRef<HTMLDivElement>(null)
   const times = rows(earliest, latest)
   const sorted = [...dates].sort()
 
@@ -56,70 +50,32 @@ export function Grille({ dates, earliest, latest, mine, onMine, dispos = [], foc
     onMine(next)
   }
 
-  const commencer = (c: [number, number]) => {
-    drag.current = { add: !mine!.has(key(sorted[c[0]], times[c[1]])), base: new Set(mine), start: c }
-    paint(c)
-  }
-  const oublierAppui = () => {
-    if (appui.current) window.clearTimeout(appui.current.timer)
-    appui.current = null
-  }
-
-  // Une fois l'appui long déclenché, le doigt peint : on empêche alors la page de défiler.
-  // Écouteur natif car React n'en pose pas de « non passif », seul moyen de bloquer le défilement.
-  useEffect(() => {
-    const el = grille.current
-    if (!el || !editing) return
-    const bloquer = (e: TouchEvent) => { if (drag.current) e.preventDefault() }
-    el.addEventListener('touchmove', bloquer, { passive: false })
-    return () => { el.removeEventListener('touchmove', bloquer); oublierAppui() }
-  }, [editing])
-
   return (
     <div className="overflow-x-auto rounded-2xl border border-black/10 bg-white">
       <div
-        ref={grille}
-        className={`inline-grid min-w-full select-none ${editing ? 'touch-manipulation' : ''}`}
+        className="inline-grid min-w-full select-none"
         style={{ gridTemplateColumns: `3.25rem repeat(${sorted.length}, minmax(3rem, 1fr))`, WebkitTouchCallout: editing ? 'none' : undefined }}
-        onContextMenu={(e) => { if (drag.current || appui.current) e.preventDefault() }}
+        onContextMenu={(e) => { if (drag.current) e.preventDefault() }}
         onPointerDown={(e) => {
           const c = cellAt(e)
           if (!c) return
           if (!editing) return onFocus?.(key(sorted[c[0]], times[c[1]]))
-          if (e.pointerType === 'touch') {
-            // Deuxième doigt (zoom) : on ne coche rien.
-            if (!e.isPrimary) return oublierAppui()
-            oublierAppui()
-            appui.current = {
-              x: e.clientX, y: e.clientY, c,
-              timer: window.setTimeout(() => {
-                appui.current = null
-                navigator.vibrate?.(15)
-                commencer(c)
-              }, APPUI_LONG_MS),
-            }
-            return
-          }
           ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
-          commencer(c)
+          drag.current = { add: !mine!.has(key(sorted[c[0]], times[c[1]])), base: new Set(mine), start: c }
+          paint(c)
         }}
         onPointerMove={(e) => {
-          // Le doigt bouge avant l'appui long : c'est un défilement, on ne coche rien.
-          const a = appui.current
-          if (a && Math.hypot(e.clientX - a.x, e.clientY - a.y) > TOLERANCE_PX) oublierAppui()
           const c = cellAt(e)
           if (drag.current) { if (c) paint(c) }
           else if (!editing && e.pointerType === 'mouse') onFocus?.(c ? key(sorted[c[0]], times[c[1]]) : null)
         }}
-        onPointerUp={() => {
-          // Doigt relevé sans avoir bougé ni attendu : simple toucher, une case.
-          if (appui.current) { const { c } = appui.current; oublierAppui(); commencer(c) }
-          drag.current = null
-        }}
-        onPointerCancel={() => { oublierAppui(); drag.current = null }}
+        onPointerUp={() => { drag.current = null }}
+        onPointerCancel={() => { drag.current = null }}
         onPointerLeave={(e) => { if (!editing && e.pointerType === 'mouse') onFocus?.(null) }}
       >
-        <div className="sticky left-0 z-10 border-b border-black/10 bg-white" />
+        <div className="sticky left-0 z-10 grid place-items-center border-b border-black/10 bg-white text-[18px] text-black/35">
+          {editing && <span aria-hidden="true">↕</span>}
+        </div>
         {sorted.map((d) => {
           const s = dayShort(d)
           return (
@@ -148,7 +104,7 @@ export function Grille({ dates, earliest, latest, mine, onMine, dispos = [], foc
                   data-c={`${c},${r}`}
                   className={`h-6 border-l border-black/10 ${t % 60 === 0 ? 'border-t border-t-black/10' : 'border-t border-dashed border-t-black/[.07]'} ${
                     focus === k ? 'outline outline-2 -outline-offset-2 outline-ink' : ''
-                  } ${editing ? 'cursor-pointer' : ''}`}
+                  } ${editing ? 'cursor-pointer touch-none' : ''}`}
                   style={{ background: bg }}
                   title={editing ? undefined : `${n}/${total} dispo`}
                 />

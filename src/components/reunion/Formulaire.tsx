@@ -34,7 +34,7 @@ export function Formulaire({ initial, submitLabel, onSubmit }: {
           <h2 className="mb-4 text-center text-[16px] font-medium">Saisir les dates du sondage</h2>
           <DatesPicker value={r.dates} onChange={(dates) => setR({ ...r, dates })} />
           <p className="mt-3 text-center text-[12.5px] text-black/55">
-            {r.dates.length ? `${r.dates.length} date${r.dates.length > 1 ? 's' : ''} choisie${r.dates.length > 1 ? 's' : ''}` : 'Touchez les jours. Pour en prendre plusieurs, restez appuyé puis glissez.'}
+            {r.dates.length ? `${r.dates.length} date${r.dates.length > 1 ? 's' : ''} choisie${r.dates.length > 1 ? 's' : ''}` : 'Touchez les jours, ou glissez pour en prendre plusieurs.'}
           </p>
         </section>
         <section className="rounded-3xl bg-violet-wash p-5 sm:p-7">
