@@ -7,7 +7,7 @@ const nextConfig = {
   },
   // Textes retirés du site (gardés en base) : la page publique renvoie à l'accueil, le pilotage reste ouvert. La visite est comptée (événement « Texte retiré visité »).
   async redirects() {
-    return ['tu-m-embrasses-2j5o'].map((slug) => ({ source: `/signature/${slug}`, destination: `/?retire=${slug}`, permanent: false }))
+    return [].map((slug) => ({ source: `/signature/${slug}`, destination: `/?retire=${slug}`, permanent: false }))
   },
   async headers() {
     return [
