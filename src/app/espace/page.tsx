@@ -73,6 +73,24 @@ export default function MonEspace() {
     try { setItems(await synchroniser([el])) } catch {}
   }
 
+  // Corbeille : un élément archivé qu'on supprime y passe ; « Restaurer » le remet dans les archives.
+  async function jeter(e: ElementEspace, corbeille: boolean) {
+    const el = { ...e, historique: true, corbeille, maj: new Date().toISOString() }
+    setItems(items.map((x) => (x.id === e.id ? el : x)))
+    try { setItems(await synchroniser([el])) } catch {}
+  }
+
+  // Suppression définitive : retiré de Mon espace sur tous les appareils (le texte ou le sondage lui-même n'est pas effacé).
+  async function effacer(liste: ElementEspace[]) {
+    if (!liste.length) return
+    const msg = liste.length > 1 ? `Supprimer définitivement ces ${liste.length} éléments ?` : `Supprimer définitivement « ${liste[0].titre || liste[0].slug} » ?`
+    if (!window.confirm(msg)) return
+    const ids = new Set(liste.map((x) => x.id))
+    const maj = new Date().toISOString()
+    setItems(items.filter((x) => !ids.has(x.id)))
+    try { setItems(await synchroniser([], liste.map((x) => ({ id: x.id, maj })))) } catch { setEtat('Suppression non enregistrée : réessayez en ligne.') }
+  }
+
   useEffect(() => {
     const c = new URLSearchParams(window.location.search).get('code')
     // Rapatrier après la synchro : il faut connaître les éléments déjà retirés.
@@ -82,8 +100,9 @@ export default function MonEspace() {
   const pilotesSlugs = new Set(items.filter((x) => x.type === 'pilote').map((x) => x.slug))
   const visibles = items.filter((x) => x.type !== 'appareil' && !(x.type === 'signe' && pilotesSlugs.has(x.slug)))
   // Chaque catégorie garde ses propres archives.
-  const actifs = (t: string) => visibles.filter((x) => x.type === t && !x.historique)
-  const archives = (t: string) => visibles.filter((x) => x.type === t && x.historique)
+  const actifs = (t: string) => visibles.filter((x) => x.type === t && !x.historique && !x.corbeille)
+  const archives = (t: string) => visibles.filter((x) => x.type === t && x.historique && !x.corbeille)
+  const corbeille = (t: string) => visibles.filter((x) => x.type === t && x.corbeille)
   const appareils = items.filter((x) => x.type === 'appareil').length
 
   return (
@@ -109,8 +128,10 @@ export default function MonEspace() {
         <div key={outil} className={`${i ? 'mt-28 sm:mt-14' : 'mt-8'} rounded-3xl bg-white shadow-card px-5 pb-6 pt-1 sm:px-10`}>
           {sections.map(([t, titre, vide, note]) => (
             <Section key={t} outil={outil} titre={titre} vide={vide} archives={archives(t).map((e) => (
-              <Ligne key={e.id} e={e} href={lien(e)} note={note} onRanger={ranger} />
-            ))}>
+              <Ligne key={e.id} e={e} href={lien(e)} note={note} onRanger={ranger} onSupprimer={() => jeter(e, true)} />
+            ))} corbeille={corbeille(t).map((e) => (
+              <Ligne key={e.id} e={e} href={lien(e)} note={note} onRanger={() => jeter(e, false)} onSupprimer={() => effacer([e])} definitif />
+            ))} onVider={() => effacer(corbeille(t))}>
               {actifs(t).map((e) => (
                 <Ligne key={e.id} e={e} href={lien(e)} note={note} onRanger={ranger} />
               ))}
@@ -166,7 +187,7 @@ function TitreOutil({ outil, titre }: { outil: keyof typeof OUTILS; titre: strin
   )
 }
 
-function Section({ outil, titre, vide, archives, children }: { outil: keyof typeof OUTILS; titre: string; vide: string; archives: React.ReactNode[]; children: React.ReactNode[] }) {
+function Section({ outil, titre, vide, archives, corbeille, onVider, children }: { outil: keyof typeof OUTILS; titre: string; vide: string; archives: React.ReactNode[]; corbeille: React.ReactNode[]; onVider: () => void; children: React.ReactNode[] }) {
   return (
     <>
       <TitreOutil outil={outil} titre={titre} />
@@ -175,6 +196,13 @@ function Section({ outil, titre, vide, archives, children }: { outil: keyof type
         <details className="mt-1">
           <summary className="cursor-pointer py-1 text-[13px] text-black/50">Archivés ({archives.length})</summary>
           <ul className="divide-y divide-black/[.07] opacity-75">{archives}</ul>
+        </details>
+      )}
+      {corbeille.length > 0 && (
+        <details className="mt-1">
+          <summary className="cursor-pointer py-1 text-[13px] text-black/50">Corbeille ({corbeille.length})</summary>
+          <ul className="divide-y divide-black/[.07] opacity-60">{corbeille}</ul>
+          <button className="mt-1 text-[12.5px] text-red-700/70 hover:text-red-700" onClick={onVider}>Vider la corbeille</button>
         </details>
       )}
     </>
@@ -187,7 +215,7 @@ function lien(e: ElementEspace) {
   return `/reunion/${e.slug}`
 }
 
-function Ligne({ e, href, note, onRanger }: { e: ElementEspace; href: string; note?: string; onRanger: (e: ElementEspace, historique: boolean) => void }) {
+function Ligne({ e, href, note, onRanger, onSupprimer, definitif }: { e: ElementEspace; href: string; note?: string; onRanger: (e: ElementEspace, historique: boolean) => void; onSupprimer?: () => void; definitif?: boolean }) {
   return (
     <li className="flex items-center gap-3 py-2.5">
       <Link href={href} className="min-w-0 flex-1 truncate text-[15px] underline-offset-2 hover:underline">{e.titre || e.slug}</Link>
@@ -196,6 +224,12 @@ function Ligne({ e, href, note, onRanger }: { e: ElementEspace; href: string; no
         title={e.historique ? 'Restaurer dans ma liste' : "Archiver (rien n'est effacé)"}>
         {e.historique ? 'Restaurer' : 'Archiver'}
       </button>
+      {onSupprimer && (
+        <button className="shrink-0 text-[12.5px] text-red-700/60 hover:text-red-700" onClick={onSupprimer}
+          title={definitif ? 'Retirer de Mon espace pour de bon' : 'Mettre à la corbeille'}>
+          {definitif ? 'Supprimer définitivement' : 'Supprimer'}
+        </button>
+      )}
     </li>
   )
 }

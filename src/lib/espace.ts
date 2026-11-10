@@ -13,6 +13,7 @@ export type ElementEspace = {
   ajoute?: string
   maj?: string
   historique?: boolean // rangé dans l'historique de Mon espace (gardé, juste mis de côté)
+  corbeille?: boolean // supprimé des archives : dans la corbeille, restaurable jusqu'à suppression définitive
 }
 
 export const K_CODE = 'paraphe.carnet'
@@ -80,7 +81,7 @@ export function noter(e: Omit<ElementEspace, 'id' | 'ajoute' | 'maj'>, nouveau =
   const ex = lireCache().find((x) => x.id === id)
   if (ex && ex.titre === e.titre && ex.k === e.k && ex.s === e.s) return
   const maintenant = new Date().toISOString()
-  const el: ElementEspace = { ...e, id, ajoute: ex?.ajoute || maintenant, maj: maintenant, ...(ex?.historique ? { historique: true } : {}) }
+  const el: ElementEspace = { ...e, id, ajoute: ex?.ajoute || maintenant, maj: maintenant, ...(ex?.historique ? { historique: true } : {}), ...(ex?.corbeille ? { corbeille: true } : {}) }
   ecrireCache([el, ...lireCache().filter((x) => x.id !== id)])
   synchroniser([el]).catch(() => {})
 }
